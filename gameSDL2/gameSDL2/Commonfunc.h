@@ -7,15 +7,18 @@
 #include<SDL_image.h>
 #include<SDL_mixer.h>
 #include<SDL_ttf.h>
+#include<fstream>
+#include<vector>
 
+using namespace std;
 
 static SDL_Window* g_window;
 static SDL_Renderer* g_screen;
 static SDL_Event g_event;
 
 //screen
-const int SCREEN_WIDTH = 1320;
-const int SCREEN_HEIGHT = 688;
+const int SCREEN_WIDTH = 1120;
+const int SCREEN_HEIGHT = 840;
 const int SCREEN_BPP = 32;
 
 const int COLOR_KEY_R = 167;
@@ -25,7 +28,21 @@ const int COLOR_KEY_B = 180;
 
 const int RENDER_DRAW_COLOR = 0Xff;
 
+#define TILE_SIZE 40 // chieu dai va rong cua mot o map
+#define MAX_MAP_X 28
+#define MAX_MAP_Y 21
+
+typedef struct Map{
+	int start_x_; // vi tri bat dau cua o map
+	int start_y_; // vi tri bat dau cua o map
+
+	int max_x_; // chi so cua o trong map(o thu bao nhieu)
+	int max_y_;
 
 
+
+	int tile[MAX_MAP_Y][MAX_MAP_X];
+	char* file_name_;
+};
 
 #endif 

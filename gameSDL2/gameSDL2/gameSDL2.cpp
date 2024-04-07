@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include"BaseObject.h"
 #include"Commonfunc.h"
+#include"Game_map.h"
 
 BaseObject g_background;
 
@@ -23,6 +24,10 @@ int main(int argc, char* argv[])
 	if(InitData()==false) return -1;
 	if(LoadBackground() == false) return -1;
 
+	GameMap game_map;
+	game_map.LoadMap("map/map01.dat");
+	game_map.LoadTiles(g_screen);
+
 	// tao mot vong lap vo han de load tam anh 
 	bool is_quit = false;
 	while(!is_quit){
@@ -38,6 +43,8 @@ int main(int argc, char* argv[])
 		// ham dua anh ra man hinh
 		g_background.Render(g_screen, NULL);
 		// ham update lai man hinh
+		game_map.DrawMap(g_screen);
+
 		SDL_RenderPresent(g_screen);
 	}
 	close();
@@ -78,7 +85,7 @@ bool InitData()
 bool LoadBackground(){
 
 	//ham load tam anh len
-	bool ret = g_background.LoadImg("backgroundsdl.png", g_screen);
+	bool ret = g_background.LoadImg("backgroundkham.jpg", g_screen);
 	if(ret == false ) return false;
 	return true;
 }
