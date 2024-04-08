@@ -23,7 +23,7 @@ public:
 	// ham co tac dung load anh bit map len doi tuong p_object
 	// path:duong dan cho tam anh
 	//screen con tro tro den doi tuong rendenrer duoc dung de ve anh len man hinh
-	bool LoadImg(std::string path,SDL_Renderer* screen);
+	virtual bool LoadImg(std::string path,SDL_Renderer* screen);
     // su dung des de ve len man hinh 
 	// neu gia tri clip duoc dua vao khac null no se chi ve tren phan hinh anh nam trong vung clip
 	// neu clip == null no se ve toan bo hinh anh len man hinh

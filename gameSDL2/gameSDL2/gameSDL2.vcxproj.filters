@@ -33,6 +33,9 @@
     <ClInclude Include="Game_map.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MainObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -48,6 +51,9 @@
       <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="Game_map.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MainObject.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>

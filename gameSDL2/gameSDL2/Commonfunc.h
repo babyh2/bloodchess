@@ -10,7 +10,7 @@
 #include<fstream>
 #include<vector>
 
-using namespace std;
+
 
 static SDL_Window* g_window;
 static SDL_Renderer* g_screen;
@@ -31,7 +31,6 @@ const int RENDER_DRAW_COLOR = 0Xff;
 #define TILE_SIZE 40 // chieu dai va rong cua mot o map
 #define MAX_MAP_X 28
 #define MAX_MAP_Y 21
-
 typedef struct Map{
 	int start_x_; // vi tri bat dau cua o map
 	int start_y_; // vi tri bat dau cua o map
@@ -43,6 +42,15 @@ typedef struct Map{
 
 	int tile[MAX_MAP_Y][MAX_MAP_X];
 	char* file_name_;
+};
+
+typedef struct Input
+{
+	int left_;
+	int right_;
+	int up_;
+	int down_;
+
 };
 
 #endif 
