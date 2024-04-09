@@ -20,7 +20,7 @@ public:
 	void LoadMap(char* name);// doc toan bo thong tin cua file map
 	void LoadTiles(SDL_Renderer* screen); // load toan bo hinh anh vao cai tile
 	void DrawMap(SDL_Renderer* screen); // load hinh anh de xay dung mot map hoan thien
-
+	Map getMap() const { return game_map_;}
 
 	
 private: 

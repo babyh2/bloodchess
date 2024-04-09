@@ -10,7 +10,7 @@
 #include<fstream>
 #include<vector>
 
-
+#define BLANK_TILE 0
 
 static SDL_Window* g_window;
 static SDL_Renderer* g_screen;

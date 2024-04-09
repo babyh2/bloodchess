@@ -4,6 +4,8 @@
 #include"Commonfunc.h"
 #include"BaseObject.h"
 
+#define PLAYER_SPEED 1
+
 class MainObject : public BaseObject
 {
 public:
@@ -21,10 +23,12 @@ public:
 	bool LoadImg(std::string path, SDL_Renderer* screen);
 	void Show(SDL_Renderer* des);
 	void HandelInputAction(SDL_Event events, SDL_Renderer* screen);
+	void DoPlayer(Map& map_data);
+	void CheckToMap(Map& map_data);
 
 private:
-	float x_val_;
-	float y_val_;
+	int  x_val_;
+	int  y_val_;
 	
 	int x_pos_;
 	int y_pos_;

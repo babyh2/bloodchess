@@ -5,6 +5,8 @@
 #include"BaseObject.h"
 #include"Commonfunc.h"
 #include"Game_map.h"
+#include"MainObject.h"
+
 
 BaseObject g_background;
 
@@ -28,13 +30,16 @@ int main(int argc, char* argv[])
 	game_map.LoadMap("map/map01.dat");
 	game_map.LoadTiles(g_screen);
 
+	MainObject p_player;
+	p_player.LoadImg("img/sieunhan_right.jpg", g_screen);
+
 	// tao mot vong lap vo han de load tam anh 
 	bool is_quit = false;
 	while(!is_quit){
 		while(SDL_PollEvent(&g_event) !=0)
 		{
 			if(g_event.type == SDL_QUIT ) is_quit = true;
-
+			p_player.HandelInputAction(g_event, g_screen);
 		}
 		SDL_SetRenderDrawColor(g_screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR,
 			RENDER_DRAW_COLOR,RENDER_DRAW_COLOR);
@@ -44,6 +49,11 @@ int main(int argc, char* argv[])
 		g_background.Render(g_screen, NULL);
 		// ham update lai man hinh
 		game_map.DrawMap(g_screen);
+		Map map_data= game_map.getMap();
+
+		p_player.DoPlayer(map_data);
+		p_player.Show(g_screen);
+
 
 		SDL_RenderPresent(g_screen);
 	}
@@ -85,7 +95,7 @@ bool InitData()
 bool LoadBackground(){
 
 	//ham load tam anh len
-	bool ret = g_background.LoadImg("backgroundkham.jpg", g_screen);
+	bool ret = g_background.LoadImg("backgroundbundat2.png", g_screen);
 	if(ret == false ) return false;
 	return true;
 }
