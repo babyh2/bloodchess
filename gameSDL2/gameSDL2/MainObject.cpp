@@ -44,7 +44,6 @@ void MainObject::Show(SDL_Renderer* des){
 	else if(status_ == WALK_DOWN){
 		LoadImg("img/sieunhan_down.jpg",des);
 	}
-	else LoadImg("img/sieunhan_right.jpg",des);
 	// cac ham xuat anh tuong ung
 	rect_.x=x_pos_; // lay vi tri
 	rect_.y=y_pos_; 
@@ -62,24 +61,37 @@ void MainObject::HandelInputAction(SDL_Event events, SDL_Renderer* screen)
 			{
 				status_ = WALK_RIGHT;
 				input_type_.right_ = 1;
+				input_type_.left_=0;
+				input_type_.down_=0;
+				input_type_.up_=0;
 			}
 			break;
 		case SDLK_LEFT:
 			{
 				status_ = WALK_LEFT;
 				input_type_.left_ = 1;
+				input_type_.right_ = 0;
+				input_type_.down_=0;
+				input_type_.up_=0;
 			}
 			break;
 		case SDLK_UP:
 			{
 				status_ = WALK_UP;
 				input_type_.up_ = 1;
+				input_type_.right_ = 0;
+				input_type_.left_=0;
+				input_type_.down_=0;
+				
 			}
 			break;
 		case SDLK_DOWN:
 			{
 				status_ = WALK_DOWN;
 				input_type_.down_ = 1;
+				input_type_.right_ = 0;
+				input_type_.left_=0;
+				input_type_.up_=0;
 			}
 			break;
 		default: break;
@@ -215,8 +227,8 @@ void MainObject::CheckToMap(Map& map_data){
 		x_pos_ = map_data.max_x_ - width -1 ;
 	}
 	if(y_pos_ < TILE_SIZE ) y_pos_ = TILE_SIZE;
-	else if( y_pos_ + height > map_data.max_y_ - TILE_SIZE )
+	else if( y_pos_ + height > map_data.max_y_-TILE_SIZE)
 	{
-		y_pos_ = map_data.max_y_ -height -1 - TILE_SIZE;
+		y_pos_ = map_data.max_y_ -height -1-TILE_SIZE;
 	}
 }

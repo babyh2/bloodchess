@@ -6,7 +6,7 @@
 #include"Commonfunc.h"
 #include"Game_map.h"
 #include"MainObject.h"
-
+#include"ImpTime.h"
 
 BaseObject g_background;
 
@@ -22,6 +22,8 @@ void close();
 
 int main(int argc, char* argv[])
 {
+	ImpTime fps_timer;
+
 
 	if(InitData()==false) return -1;
 	if(LoadBackground() == false) return -1;
@@ -36,6 +38,8 @@ int main(int argc, char* argv[])
 	// tao mot vong lap vo han de load tam anh 
 	bool is_quit = false;
 	while(!is_quit){
+		fps_timer.start();
+
 		while(SDL_PollEvent(&g_event) !=0)
 		{
 			if(g_event.type == SDL_QUIT ) is_quit = true;
@@ -56,6 +60,14 @@ int main(int argc, char* argv[])
 
 
 		SDL_RenderPresent(g_screen);
+		int real_imp_time = fps_timer.get_ticks(); // lay thoi gian da choi
+		int time_on_frame = 1000/FRAME_PER_SECOND;//MS
+
+		if(real_imp_time < time_on_frame){
+			int delay_time = time_on_frame - real_imp_time;
+			
+			if(delay_time>=0) SDL_Delay(delay_time);// de chuong trinh chay nhanh hon thi tang fps len
+		}
 	}
 	close();
 	return 0;

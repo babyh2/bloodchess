@@ -85,6 +85,7 @@
     <ClInclude Include="Commonfunc.h" />
     <ClInclude Include="BaseObject.h" />
     <ClInclude Include="Game_map.h" />
+    <ClInclude Include="ImpTime.h" />
     <ClInclude Include="MainObject.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -94,6 +95,7 @@
     <ClCompile Include="Commonfunc.cpp" />
     <ClCompile Include="gameSDL2.cpp" />
     <ClCompile Include="Game_map.cpp" />
+    <ClCompile Include="ImpTime.cpp" />
     <ClCompile Include="MainObject.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
