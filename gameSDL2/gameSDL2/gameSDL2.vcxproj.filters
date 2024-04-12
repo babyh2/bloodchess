@@ -39,6 +39,9 @@
     <ClInclude Include="ImpTime.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ThreatsObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -60,6 +63,9 @@
       <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="ImpTime.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreatsObject.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>

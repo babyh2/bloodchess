@@ -7,6 +7,7 @@
 #include"Game_map.h"
 #include"MainObject.h"
 #include"ImpTime.h"
+#include"ThreatsObject.h"
 
 BaseObject g_background;
 
@@ -35,6 +36,9 @@ int main(int argc, char* argv[])
 	MainObject p_player;
 	p_player.LoadImg("img/sieunhan_right.jpg", g_screen);
 
+	ThreatsObject dauchamhoi;
+	dauchamhoi.LoadImg("img/chamhoi.jpg",g_screen);
+
 	// tao mot vong lap vo han de load tam anh 
 	bool is_quit = false;
 	while(!is_quit){
@@ -58,6 +62,7 @@ int main(int argc, char* argv[])
 		p_player.DoPlayer(map_data);
 		p_player.Show(g_screen);
 
+		dauchamhoi.Show(g_screen);
 
 		SDL_RenderPresent(g_screen);
 		int real_imp_time = fps_timer.get_ticks(); // lay thoi gian da choi
