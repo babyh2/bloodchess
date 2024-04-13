@@ -56,11 +56,17 @@ int main(int argc, char* argv[])
 		// ham dua anh ra man hinh
 		g_background.Render(g_screen, NULL);
 		// ham update lai man hinh
-		game_map.DrawMap(g_screen);
+		
 		Map map_data= game_map.getMap();
+
+		p_player.SetMapXY(map_data.start_x_, map_data.start_y_);
+
 
 		p_player.DoPlayer(map_data);
 		p_player.Show(g_screen);
+
+		game_map.SetMap(map_data);
+		game_map.DrawMap(g_screen);
 
 		dauchamhoi.Show(g_screen);
 
@@ -112,7 +118,7 @@ bool InitData()
 bool LoadBackground(){
 
 	//ham load tam anh len
-	bool ret = g_background.LoadImg("backgroundbundat2.png", g_screen);
+	bool ret = g_background.LoadImg("dennham.jpg", g_screen);
 	if(ret == false ) return false;
 	return true;
 }

@@ -13,6 +13,9 @@ MainObject::MainObject(){
 	input_type_.right_=0;
 	input_type_.up_=0;
 	input_type_.down_=0;
+	map_x_=0;
+	map_y_=0;
+
 };
 MainObject::~MainObject(){
 	
@@ -45,8 +48,9 @@ void MainObject::Show(SDL_Renderer* des){
 		LoadImg("img/sieunhan_down.jpg",des);
 	}
 	// cac ham xuat anh tuong ung
-	rect_.x=x_pos_; // lay vi tri
-	rect_.y=y_pos_; 
+	rect_.x=x_pos_ - map_x_; // lay vi tri
+	rect_.y=y_pos_ - map_y_; // khi chay nhan vat man hinh bi cuon theo nen phai tru di luong man hinh bi cuon di
+	// tru di de giu nhan vat luon o giua man hinh 
 
 	SDL_Rect renderQuad = {rect_.x, rect_.y, width, height}; // luu toa do
 	SDL_RenderCopy(des,p_object, NULL, &renderQuad);
@@ -145,9 +149,32 @@ void MainObject::DoPlayer(Map& map_data){
 		y_val_ += PLAYER_SPEED;
 	}
 	CheckToMap(map_data);
-	
+	CenterEntityOnMap(map_data);
 }
 
+void MainObject::CenterEntityOnMap(Map& map_data)
+{
+	//Neu nhan vat di chuyen den vi tri nua ban do thi di chuyen map theo nhan vat
+	map_data.start_x_=x_pos_ - (SCREEN_WIDTH/2);
+	if(map_data.start_x_ <0)// xet nhan vat di chuyen theo chieu ngang
+	{
+		map_data.start_x_=0;
+	}
+	else if(map_data.start_x_ + SCREEN_WIDTH >= map_data.max_x_)
+	{
+		map_data.start_x_=map_data.max_x_-SCREEN_WIDTH;
+	}
+	map_data.start_y_ = y_pos_ -(SCREEN_HEIGHT/2);
+	if(map_data.start_y_<0)// xet nhan vat di chuyen theo chieu doc
+	{
+		map_data.start_y_ =0;
+
+	}
+	else if(map_data.start_y_+SCREEN_HEIGHT>= map_data.max_y_)
+	{
+		map_data.start_y_=map_data.max_y_-SCREEN_HEIGHT;
+	}
+}
 
 void MainObject::CheckToMap(Map& map_data){
 	int x1=0;

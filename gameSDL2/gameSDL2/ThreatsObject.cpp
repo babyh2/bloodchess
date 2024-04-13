@@ -69,10 +69,10 @@ void ThreatsObject::Show(SDL_Renderer* des){
 	/* map_x va map_y dung de xac ding vi tri tren ma tran de lay gia tri tuong ung voi anh
 	   de dua anh len man hinh
 	*/
-	if(status_ == 0 ) LoadImg("img/chamhoi.jpg",des);
+	LoadImg("img/dauchamhoi.jpg",des);
 	for(int i=0;i<MAX_MAP_Y;i++){
 		for(int j=0;j<MAX_MAP_X;j++){
-			if(game_map_.tile[i][j]==2){
+			if(game_map_.tile[i][j]==1){
 				rect_.x = j* TILE_SIZE;
 				rect_.y = i* TILE_SIZE;
 				SDL_Rect rendQuad = {rect_.x,rect_.y,width,height};

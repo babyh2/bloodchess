@@ -30,7 +30,7 @@ const int COLOR_KEY_B = 180;
 const int RENDER_DRAW_COLOR = 0Xff;
 
 #define TILE_SIZE 40 // chieu dai va rong cua mot o map
-#define MAX_MAP_X 28
+#define MAX_MAP_X 210 
 #define MAX_MAP_Y 21
 typedef struct Map{
 	int start_x_; // vi tri bat dau cua o map
