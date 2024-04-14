@@ -10,7 +10,8 @@
 #include<fstream>
 #include<vector>
 
-#define BLANK_TILE 0
+#define BLANK_TILE 2
+#define BLANK_TAIXIU 1
 
 static SDL_Window* g_window;
 static SDL_Renderer* g_screen;
@@ -26,6 +27,8 @@ const int COLOR_KEY_R = 167;
 const int COLOR_KEY_G = 175;
 const int COLOR_KEY_B = 180;
 
+const int SCREEN_TWIDTH = 748;
+const int SCREEN_THEIGHT = 503;
 
 const int RENDER_DRAW_COLOR = 0Xff;
 

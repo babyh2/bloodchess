@@ -7,9 +7,14 @@
 #include"Game_map.h"
 #include"MainObject.h"
 #include"ImpTime.h"
-#include"ThreatsObject.h"
+#include"Window.h"
 
+
+Window tai_xiu;
 BaseObject g_background;
+bool hienthi=true;
+
+
 
 // ham khoi tao cac gia tri trong bai
 bool InitData();
@@ -24,10 +29,11 @@ void close();
 int main(int argc, char* argv[])
 {
 	ImpTime fps_timer;
-
+	tai_xiu.init("bs-1.png",748,503);
 
 	if(InitData()==false) return -1;
 	if(LoadBackground() == false) return -1;
+
 
 	GameMap game_map;
 	game_map.LoadMap("map/map01.dat");
@@ -36,8 +42,7 @@ int main(int argc, char* argv[])
 	MainObject p_player;
 	p_player.LoadImg("img/sieunhan_right.jpg", g_screen);
 
-	ThreatsObject dauchamhoi;
-	dauchamhoi.LoadImg("img/chamhoi.jpg",g_screen);
+	
 
 	// tao mot vong lap vo han de load tam anh 
 	bool is_quit = false;
@@ -68,7 +73,12 @@ int main(int argc, char* argv[])
 		game_map.SetMap(map_data);
 		game_map.DrawMap(g_screen);
 
-		dauchamhoi.Show(g_screen);
+		if(p_player.CheckTaiXiu(map_data)){
+			tai_xiu.init("bs-1.png",748,503);
+			tai_xiu.show(hienthi);
+			hienthi=false;
+			tai_xiu.render();
+		}
 
 		SDL_RenderPresent(g_screen);
 		int real_imp_time = fps_timer.get_ticks(); // lay thoi gian da choi
