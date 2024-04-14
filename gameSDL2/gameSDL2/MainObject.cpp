@@ -15,7 +15,7 @@ MainObject::MainObject(){
 	input_type_.down_=0;
 	map_x_=0;
 	map_y_=0;
-
+	speed = PLAYER_SPEED;
 };
 MainObject::~MainObject(){
 	
@@ -137,16 +137,16 @@ void MainObject::DoPlayer(Map& map_data){
 	x_val_=0;
 	y_val_=0;
 	if(input_type_.left_ == 1){
-        x_val_ -= PLAYER_SPEED;
+        x_val_ -= speed;
 	}
 	if(input_type_.right_ ==1){
-		x_val_ += PLAYER_SPEED;
+		x_val_ += speed;
 	}
 	if(input_type_.up_ ==1){
-		y_val_ -= PLAYER_SPEED;
+		y_val_ -= speed;
 	}
 	if(input_type_.down_ == 1){
-		y_val_ += PLAYER_SPEED;
+		y_val_ += speed;
 	}
 	CheckToMap(map_data);
 	CenterEntityOnMap(map_data);
@@ -281,6 +281,8 @@ bool MainObject::CheckTaiXiu(Map& map_data){
 		{
 			if(map_data.tile[y1][x2] == BLANK_TAIXIU || map_data.tile[y2][x2] == BLANK_TAIXIU)
 			{
+				x_val_=0;
+				speed=0;
 				return true;
 			}
 		}
@@ -288,6 +290,8 @@ bool MainObject::CheckTaiXiu(Map& map_data){
 		{
 			if(map_data.tile[y1][x1] == BLANK_TAIXIU || map_data.tile[y2][x1] == BLANK_TAIXIU)
 			{
+				x_val_=0;
+				speed =0;
 				return true;
 			}
 		}
@@ -306,6 +310,8 @@ bool MainObject::CheckTaiXiu(Map& map_data){
 		{
 			if(map_data.tile[y2][x1] == BLANK_TAIXIU || map_data.tile[y2][x2] == BLANK_TAIXIU)
 			{
+				y_val_=0;
+				speed=0;
 				return true;
 			}
 		}
@@ -313,6 +319,8 @@ bool MainObject::CheckTaiXiu(Map& map_data){
 		{
 			if(map_data.tile[y1][x1] == BLANK_TAIXIU || map_data.tile[y1][x2] == BLANK_TAIXIU)
 			{
+				y_val_=0;
+				speed=0;
 				return true;
 			}
 		}

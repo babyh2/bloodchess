@@ -39,6 +39,8 @@ private:
 	int x_pos_;
 	int y_pos_;
 
+	int speed;
+
 	int width;
 	int height;
 
@@ -47,7 +49,7 @@ private:
 
 	int map_x_;
 	int map_y_;
-
+	
 };
 
 

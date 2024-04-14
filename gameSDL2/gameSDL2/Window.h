@@ -13,6 +13,8 @@ public:
     void render();
     void show(bool visible); // Hiển thị hoặc ẩn cửa sổ
 	SDL_Texture* loadImg(const std::string& path);
+    
+
 
 private:
     SDL_Window* mWindow;

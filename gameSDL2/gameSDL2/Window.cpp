@@ -83,7 +83,7 @@ void Window::render() {
     SDL_RenderClear(mRenderer);
 
     SDL_Rect loadBG = {0, 0, 748, 503};
-    SDL_Texture* loadBackground = loadImg("bs-1.png");
+    SDL_Texture* loadBackground = loadImg("trang.jpg");
     if (loadBackground) {
         SDL_RenderCopy(mRenderer, loadBackground, nullptr, &loadBG);
         SDL_DestroyTexture(loadBackground); // Giải phóng texture sau khi sử dụng
@@ -107,42 +107,34 @@ void Window::show(bool visible) {
 }
 
 void Window::renderMenu() {
-    // Vẽ chữ "Bắt đầu" ở giữa cửa sổ
-    TTF_Font* font = TTF_OpenFont("arial.ttf", 24);
-    if (font == nullptr) {
-        SDL_Log("Failed to load font: %s", TTF_GetError());
+   SDL_Surface* imageSurface = IMG_Load("img/batdau.png");
+    if (imageSurface == nullptr) {
+        SDL_Log("Failed to load image: %s", IMG_GetError());
         return;
     }
 
-    SDL_Color textColor = {0, 0, 0, 255};
-    SDL_Surface* textSurface = TTF_RenderText_Solid(font, "Bắt đầu", textColor);
-    if (textSurface == nullptr) {
-        SDL_Log("Failed to render text surface: %s", TTF_GetError());
-        TTF_CloseFont(font);
+    SDL_Texture* imageTexture = SDL_CreateTextureFromSurface(mRenderer, imageSurface);
+    if (imageTexture == nullptr) {
+        SDL_Log("Failed to create image texture: %s", SDL_GetError());
+        SDL_FreeSurface(imageSurface);
         return;
     }
 
-    SDL_Texture* textTexture = SDL_CreateTextureFromSurface(mRenderer, textSurface);
-    if (textTexture == nullptr) {
-        SDL_Log("Failed to create text texture: %s", SDL_GetError());
-        SDL_FreeSurface(textSurface);
-        TTF_CloseFont(font);
-        return;
-    }
+    SDL_Rect imageRect;
+    imageRect.x = mWidth / 2 - imageSurface->w / 2;
+    imageRect.y = mHeight / 2 - imageSurface->h / 2;
+    imageRect.w = imageSurface->w;
+    imageRect.h = imageSurface->h;
 
-    SDL_Rect textRect;
-    textRect.x = mWidth / 2 - textSurface->w / 2;
-    textRect.y = mHeight / 2 - textSurface->h / 2;
-    textRect.w = textSurface->w;
-    textRect.h = textSurface->h;
+    SDL_RenderCopy(mRenderer, imageTexture, nullptr, &imageRect);
 
-    SDL_RenderCopy(mRenderer, textTexture, nullptr, &textRect);
+    SDL_FreeSurface(imageSurface);
+    SDL_DestroyTexture(imageTexture);
 
-    SDL_FreeSurface(textSurface);
-    SDL_DestroyTexture(textTexture);
-    TTF_CloseFont(font);
 }
 
 void Window::renderGame() {
     // Vẽ trò chơi tại đây
 }
+
+

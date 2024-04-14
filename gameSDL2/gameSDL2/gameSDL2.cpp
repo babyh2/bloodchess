@@ -29,7 +29,6 @@ void close();
 int main(int argc, char* argv[])
 {
 	ImpTime fps_timer;
-	tai_xiu.init("bs-1.png",748,503);
 
 	if(InitData()==false) return -1;
 	if(LoadBackground() == false) return -1;
