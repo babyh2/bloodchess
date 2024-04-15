@@ -7,12 +7,12 @@
 #include"Game_map.h"
 #include"MainObject.h"
 #include"ImpTime.h"
-#include"Window.h"
 
 
-Window tai_xiu;
+
+
 BaseObject g_background;
-bool hienthi=true;
+
 
 
 
@@ -72,12 +72,7 @@ int main(int argc, char* argv[])
 		game_map.SetMap(map_data);
 		game_map.DrawMap(g_screen);
 
-		if(p_player.CheckTaiXiu(map_data)){
-			tai_xiu.init("bs-1.png",748,503);
-			tai_xiu.show(hienthi);
-			hienthi=false;
-			tai_xiu.render();
-		}
+		
 
 		SDL_RenderPresent(g_screen);
 		int real_imp_time = fps_timer.get_ticks(); // lay thoi gian da choi

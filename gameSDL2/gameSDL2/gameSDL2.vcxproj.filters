@@ -39,7 +39,7 @@
     <ClInclude Include="ImpTime.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Window.h">
+    <ClInclude Include="TextObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -65,7 +65,7 @@
     <ClCompile Include="ImpTime.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
-    <ClCompile Include="Window.cpp">
+    <ClCompile Include="TextObject.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>
