@@ -1,4 +1,4 @@
-// gameSDL2.cpp : Defines the entry point for the console application.
+﻿// gameSDL2.cpp : Defines the entry point for the console application.
 //
 
 #include "stdafx.h"
@@ -7,10 +7,10 @@
 #include"Game_map.h"
 #include"MainObject.h"
 #include"ImpTime.h"
+#include"TextObject.h"
 
 
-
-
+TTF_Font* g_font_text = NULL;
 BaseObject g_background;
 
 
@@ -41,8 +41,11 @@ int main(int argc, char* argv[])
 	MainObject p_player;
 	p_player.LoadImg("img/sieunhan_right.jpg", g_screen);
 
+	TextObject mark_game;
+	mark_game.SetColor(TextObject::RED);
 	
 
+	unsigned int mark_value =0;
 	// tao mot vong lap vo han de load tam anh 
 	bool is_quit = false;
 	while(!is_quit){
@@ -69,10 +72,19 @@ int main(int argc, char* argv[])
 		p_player.DoPlayer(map_data);
 		p_player.Show(g_screen);
 
+		
+
 		game_map.SetMap(map_data);
 		game_map.DrawMap(g_screen);
 
-		
+		mark_game.RenderText(g_screen, 10, 10);
+        // Hiển thị giá trị của mark_value lên màn hình
+        std::string mark_value_str = std::to_string(mark_value);
+        mark_game.LoadText(g_font_text, mark_value_str, g_screen);
+        mark_game.RenderText(g_screen, 100, 10);
+
+		mark_game.LoadText(g_font_text, "MARK : ", g_screen); 
+	    mark_game.RenderText(g_screen, 105, 10);
 
 		SDL_RenderPresent(g_screen);
 		int real_imp_time = fps_timer.get_ticks(); // lay thoi gian da choi
@@ -116,6 +128,13 @@ bool InitData()
 				}
 			}
 		}
+		
+	if (TTF_Init() == GA_FAILED) return false;
+
+    g_font_text = TTF_OpenFont("Dreams.ttf", 30);
+    if (g_font_text == NULL) return false;
+
+   
 		return success;
 }
 

@@ -1,27 +1,30 @@
-#ifndef TEXTOBJECT_H
+﻿#ifndef TEXTOBJECT_H
 #define TEXTOBJECT_H
 
-#include"Commonfunc.h"
+#include "BaseObject.h"
+#include "Commonfunc.h"
 
-class TextObject {
+class TextObject : public BaseObject {
 public:
-    TextObject(SDL_Renderer* renderer, TTF_Font* font, const std::string& text, int x, int y);
+    TextObject();
     ~TextObject();
 
-    void setText(const std::string& text);
-    void setPosition(int x, int y);
-    void setColor(const SDL_Color& color);
+    enum Color {
+        RED = 1,
+        GREEN = 2,
+        BLUE = 3,
+        YELLOW = 4,
+        WHITE = 5,
+        BLACK = 6,
+    };
 
-    void render(SDL_Renderer* renderer);
-
-    bool isMouseOver(int mouseX, int mouseY);
+    bool LoadText(TTF_Font* font, std::string text, SDL_Renderer* screen);
+    void RenderText(SDL_Renderer* des, int x, int y);
+    void SetColor(const int& type); // Thêm phương thức SetColor
 
 private:
-    SDL_Renderer* mRenderer;
-    TTF_Font* mFont;
-    SDL_Texture* mTexture;
-    SDL_Rect mRect;
-    SDL_Color mColor;
+    SDL_Texture* text_texture_;
+	SDL_Color Text_Color_;
 };
 
 #endif // TEXTOBJECT_H

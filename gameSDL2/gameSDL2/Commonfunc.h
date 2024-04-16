@@ -12,6 +12,7 @@
 
 #define BLANK_TILE 2
 #define BLANK_TAIXIU 1
+#define GA_FAILED -1
 
 static SDL_Window* g_window;
 static SDL_Renderer* g_screen;
