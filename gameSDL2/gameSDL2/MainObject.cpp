@@ -262,7 +262,7 @@ void MainObject::CheckToMap(Map& map_data){
 	}
 }
 
-bool MainObject::CheckTaiXiu(Map& map_data){
+bool MainObject::CheckVaCham(Map& map_data, int &KIEMTRA, int& moi){
 	int x1=0;
 	int y1=0;
 	int x2=0;
@@ -279,19 +279,27 @@ bool MainObject::CheckTaiXiu(Map& map_data){
 	{
 		if(x_val_ > 0)// vat dang di chuyen tien sang phai
 		{
-			if(map_data.tile[y1][x2] == BLANK_TAIXIU || map_data.tile[y2][x2] == BLANK_TAIXIU)
+			if(map_data.tile[y1][x2] == KIEMTRA)
 			{
-				x_val_=0;
-				speed=0;
+				map_data.tile[y1][x2]=moi;
+				return true;
+			}
+			else if(map_data.tile[y2][x2] == KIEMTRA)
+			{
+				map_data.tile[y2][x2] = moi;
 				return true;
 			}
 		}
 		else if(x_val_ < 0)
 		{
-			if(map_data.tile[y1][x1] == BLANK_TAIXIU || map_data.tile[y2][x1] == BLANK_TAIXIU)
+			if(map_data.tile[y1][x1] == KIEMTRA)
 			{
-				x_val_=0;
-				speed =0;
+				map_data.tile[y1][x1] = moi;
+				return true;
+			}
+			else if(map_data.tile[y2][x1] == KIEMTRA)
+			{
+				map_data.tile[y2][x1] = moi;
 				return true;
 			}
 		}
@@ -308,19 +316,27 @@ bool MainObject::CheckTaiXiu(Map& map_data){
 	{
 		if(y_val_ >0)
 		{
-			if(map_data.tile[y2][x1] == BLANK_TAIXIU || map_data.tile[y2][x2] == BLANK_TAIXIU)
+			if(map_data.tile[y2][x1] == KIEMTRA )
 			{
-				y_val_=0;
-				speed=0;
+				map_data.tile[y2][x1] = moi;
+				return true;
+			}
+			else if(map_data.tile[y2][x2] == KIEMTRA)
+			{
+				map_data.tile[y2][x2] = moi;
 				return true;
 			}
 		}
 		if(y_val_<0)
 		{
-			if(map_data.tile[y1][x1] == BLANK_TAIXIU || map_data.tile[y1][x2] == BLANK_TAIXIU)
+			if(map_data.tile[y1][x1] == KIEMTRA )
 			{
-				y_val_=0;
-				speed=0;
+				map_data.tile[y1][x1] = moi;
+				return true;
+			}
+			else if( map_data.tile[y1][x2] == KIEMTRA)
+			{
+				map_data.tile[y1][x2] = moi;
 				return true;
 			}
 		}
@@ -331,5 +347,49 @@ bool MainObject::CheckTaiXiu(Map& map_data){
 	return false;
 
 }
+
+
+bool MainObject::checktaodoc(Map& map_data, int &TAODOC, int& moi)
+{
+	moi = MOI_TAO_DOC;
+	TAODOC = BLANK_TAODOC;
+	bool a = CheckVaCham(map_data,TAODOC,moi);
+	return a;
+}
+
+bool MainObject::checktaixiu(Map& map_data, int& TAIXIU, int& moi)
+{
+	moi = MOI_TAI_XIU;
+	TAIXIU = BLANK_TAIXIU;
+	bool a = CheckVaCham(map_data, TAIXIU, moi);
+	return a;
+}
+
+bool MainObject::checkhoiphuc(Map& map_data, int& HOIPHUC, int& moi)
+{
+	moi = MOI_HOI_PHUC;
+	HOIPHUC = BLANK_HOIPHUC;
+	bool a = CheckVaCham(map_data, HOIPHUC, moi);
+	return a;
+}
+
+bool MainObject::checkbom(Map& map_data, int& BOM, int& moi)
+{
+	moi = MOI_BOM;
+	BOM = BLANK_BOM;
+	bool a = CheckVaCham(map_data, BOM, moi);
+	return a;
+}
+
+bool MainObject::checksieuhoiphuc(Map& map_data, int& SIEUHOIPHUC, int& moi)
+{
+	moi = MOI_SIEU_HOI_PHUC;
+	SIEUHOIPHUC = BLANK_SIEUHOIPHUC;
+	bool a = CheckVaCham(map_data, SIEUHOIPHUC, moi);
+	return a;
+}
+
+
+
 
 

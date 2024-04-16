@@ -77,14 +77,17 @@ int main(int argc, char* argv[])
 		game_map.SetMap(map_data);
 		game_map.DrawMap(g_screen);
 
-		mark_game.RenderText(g_screen, 10, 10);
+		
+		
         // Hiển thị giá trị của mark_value lên màn hình
         std::string mark_value_str = std::to_string(mark_value);
         mark_game.LoadText(g_font_text, mark_value_str, g_screen);
         mark_game.RenderText(g_screen, 100, 10);
 
 		mark_game.LoadText(g_font_text, "MARK : ", g_screen); 
-	    mark_game.RenderText(g_screen, 105, 10);
+	    mark_game.RenderText(g_screen, 20, 10);
+
+
 
 		SDL_RenderPresent(g_screen);
 		int real_imp_time = fps_timer.get_ticks(); // lay thoi gian da choi

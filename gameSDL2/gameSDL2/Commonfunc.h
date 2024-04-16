@@ -11,7 +11,19 @@
 #include<vector>
 
 #define BLANK_TILE 2
-#define BLANK_TAIXIU 1
+#define BLANK_TAIXIU 7
+#define BLANK_TAODOC 3
+#define BLANK_HOIPHUC 4
+#define BLANK_BOM 5
+#define BLANK_SIEUHOIPHUC 6
+
+#define MOI_TAO_DOC 8
+#define MOI_HOI_PHUC 9
+#define MOI_BOM 10
+#define MOI_SIEU_HOI_PHUC 11
+#define MOI_TAI_XIU 12
+
+
 #define GA_FAILED -1
 
 static SDL_Window* g_window;

@@ -25,9 +25,14 @@ public:
 	void HandelInputAction(SDL_Event events, SDL_Renderer* screen);
 	void DoPlayer(Map& map_data);
 	void CheckToMap(Map& map_data);
-	bool CheckTaiXiu(Map& map_data);
+	bool CheckVaCham(Map& map_data,int& KIEMTRA, int& moi);
 	void SetMapXY(const int map_x, const int map_y){map_x_=map_x; map_y_ = map_y;}
 	void CenterEntityOnMap(Map& map_data);// ham lay vi tri khi nhan vat di chuyen
+	bool checktaixiu(Map& map_data, int &TAIXIU, int& moi);
+	bool checktaodoc(Map& map_data,int &TAODOC, int& moi);
+	bool checkhoiphuc(Map& map_data, int &HOIPHUC, int& moi);
+	bool checkbom(Map& map_data, int &BOM, int& moi);
+	bool checksieuhoiphuc(Map& map_data, int &SIEUHOIPHUC, int& moi);
 
 
 

@@ -84,3 +84,41 @@ void GameMap::DrawMap(SDL_Renderer* screen){
 	}
 
 }
+
+void GameMap::KhoiPhucMap(Map& map_data)
+{
+	for(int i=0;i<MAX_MAP_Y;i++)
+	{
+		for(int j=0;j<MAX_MAP_X;i++)
+		{
+			switch(map_data.tile[i][j])
+			{
+			case MOI_TAO_DOC:
+				{
+					map_data.tile[i][j]=BLANK_TAODOC;
+					break;
+				}
+			case MOI_HOI_PHUC:
+				{
+					map_data.tile[i][j]=BLANK_HOIPHUC;
+					break;
+				}
+			case MOI_BOM:
+				{
+					map_data.tile[i][j]=BLANK_BOM;
+					break;
+				}
+			case MOI_SIEU_HOI_PHUC:
+				{
+					map_data.tile[i][j]=BLANK_SIEUHOIPHUC;
+					break;
+				}
+			case MOI_TAI_XIU:
+				{
+					map_data.tile[i][j]=BLANK_TAIXIU;
+					break;
+				}
+			};
+		}
+	}
+}
