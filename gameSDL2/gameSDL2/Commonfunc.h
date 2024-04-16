@@ -10,18 +10,19 @@
 #include<fstream>
 #include<vector>
 
-#define BLANK_TILE 2
-#define BLANK_TAIXIU 7
-#define BLANK_TAODOC 3
-#define BLANK_HOIPHUC 4
-#define BLANK_BOM 5
-#define BLANK_SIEUHOIPHUC 6
 
-#define MOI_TAO_DOC 8
-#define MOI_HOI_PHUC 9
-#define MOI_BOM 10
-#define MOI_SIEU_HOI_PHUC 11
-#define MOI_TAI_XIU 12
+const int BLANK_TILE = 2;
+const int BLANK_TAIXIU = 7;
+const int BLANK_TAODOC = 3;
+const int BLANK_HOIPHUC = 4;
+const int BLANK_BOM = 5;
+const int BLANK_SIEUHOIPHUC =  6;
+
+const int MOI_TAO_DOC=  8;
+const int MOI_HOI_PHUC = 9;
+const int MOI_BOM = 10;
+const int MOI_SIEU_HOI_PHUC = 11;
+const int MOI_TAI_XIU = 12;
 
 
 #define GA_FAILED -1
@@ -31,7 +32,7 @@ static SDL_Renderer* g_screen;
 static SDL_Event g_event;
 
 //screen
-const int FRAME_PER_SECOND = 50;
+const int FRAME_PER_SECOND = 30;
 const int SCREEN_WIDTH = 1120;
 const int SCREEN_HEIGHT = 840;
 const int SCREEN_BPP = 32;

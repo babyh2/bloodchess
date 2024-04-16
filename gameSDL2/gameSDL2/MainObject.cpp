@@ -1,4 +1,4 @@
-#include"stdafx.h"
+﻿#include"stdafx.h"
 #include"MainObject.h"
 
 MainObject::MainObject(){
@@ -176,93 +176,70 @@ void MainObject::CenterEntityOnMap(Map& map_data)
 	}
 }
 
-void MainObject::CheckToMap(Map& map_data){
-	int x1=0;
-	int x2=0;
+void MainObject::CheckToMap(Map& map_data) {
+    int x1 = 0;
+    int x2 = 0;
+    int y1 = 0;
+    int y2 = 0;
 
-	int y1=0;
-	int y2=0;
+    // Kiểm tra va chạm theo chiều cao
+    int height_min = height < TILE_SIZE ? height : TILE_SIZE;
+    x1 = (x_pos_ + x_val_) / TILE_SIZE;
+    x2 = (x_pos_ + x_val_ + width - 1) / TILE_SIZE;
+    y1 = (y_pos_ + y_val_) / TILE_SIZE;
+    y2 = (y_pos_ + y_val_ + height_min - 1) / TILE_SIZE;
 
-	// kiemtra theo chieu cao;
-	int height_min = height < TILE_SIZE ? height : TILE_SIZE;
-	//lay chieu cao gioi han
+    if (x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 < MAX_MAP_Y) {
+        if (x_val_ > 0) { // Di chuyển sang phải
+            if (map_data.tile[y1][x2] == BLANK_TILE || map_data.tile[y2][x2] == BLANK_TILE) {
+                x_pos_ = x2 * TILE_SIZE - width - 1;
+                x_val_ = 0;
+            }
+        } else if (x_val_ < 0) { // Di chuyển sang trái
+            if (map_data.tile[y1][x1] == BLANK_TILE || map_data.tile[y2][x1] == BLANK_TILE) {
+                x_pos_ = (x1 + 1) * TILE_SIZE;
+                x_val_ = 0;
+            }
+        }
+    }
 
-	x1 = (x_pos_ + x_val_)/ TILE_SIZE;
-	x2 = (x_pos_ + x_val_ + width -1)/ TILE_SIZE;
+    // Kiểm tra va chạm theo chiều dọc
+    int width_min = width < TILE_SIZE ? width : TILE_SIZE;
+    x1 = x_pos_ / TILE_SIZE;
+    x2 = (x_pos_ + width_min) / TILE_SIZE;
+    y1 = (y_pos_ + y_val_) / TILE_SIZE;
+    y2 = (y_pos_ + y_val_ + height - 1) / TILE_SIZE;
 
-	y1 = (y_pos_ + y_val_)/TILE_SIZE;
-	y2 = (y_pos_ + y_val_ +height_min -1)/TILE_SIZE;
+    if (x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 < MAX_MAP_Y) {
+        if (y_val_ > 0) { // Di chuyển xuống
+            if (map_data.tile[y2][x1] == BLANK_TILE || map_data.tile[y2][x2] == BLANK_TILE) {
+                y_pos_ = y2 * TILE_SIZE - height - 1;
+                y_val_ = 0;
+            }
+        } else if (y_val_ < 0) { // Di chuyển lên
+            if (map_data.tile[y1][x1] == BLANK_TILE || map_data.tile[y1][x2] == BLANK_TILE) {
+                y_pos_ = (y1 + 1) * TILE_SIZE;
+                y_val_ = 0;
+            }
+        }
+    }
 
-	// lay vi tri hien tai cua buc anh dang ow o thu bao nhieu tren ban do
+    // Cập nhật vị trí sau khi kiểm tra va chạm
+    x_pos_ += x_val_;
+    y_pos_ += y_val_;
 
-	if(x1>=0 && x2<MAX_MAP_X && y1>0 && y2<MAX_MAP_Y)
-	{
-		if(x_val_ > 0)// vat dang di chuyen tien sang phai
-		{
-			if(map_data.tile[y1][x2] == BLANK_TILE || map_data.tile[y2][x2] == BLANK_TILE)
-			{
-				x_pos_ = x2*TILE_SIZE;
-				x_pos_ -= width + 1;
-				x_val_=0;
-			}
-		}
-		else if(x_val_ < 0)
-		{
-			if(map_data.tile[y1][x1] == BLANK_TILE || map_data.tile[y2][x1] == BLANK_TILE)
-			{
-				x_pos_ = (x1 + 1) * TILE_SIZE;
-				x_val_=0;
-			}
-		}
-	}// ktra dua tren map xay dung boi cac so trong file mapdata.dat
-
-	// so sanh theo chieu doc 
-	int width_min = width < TILE_SIZE ? width : TILE_SIZE;
-	x1 = x_pos_ / TILE_SIZE;
-	x2 = (x_pos_ + width_min) / TILE_SIZE;
-
-	y1 = (y_pos_ + y_val_) / TILE_SIZE;
-	y2 = (y_pos_ + y_val_ + height -1) / TILE_SIZE;
-
-	if(x1>=0 && x2<MAX_MAP_X && y1>=0 && y2<MAX_MAP_Y)
-	{
-		if(y_val_ >0)
-		{
-			if(map_data.tile[y2][x1] == BLANK_TILE || map_data.tile[y2][x2] == BLANK_TILE)
-			{
-				y_pos_ = y2*TILE_SIZE;
-				y_pos_ -= (height +1);
-				y_val_=0;
-			}
-		}
-		if(y_val_<0)
-		{
-			if(map_data.tile[y1][x1] == BLANK_TILE || map_data.tile[y1][x2] == BLANK_TILE)
-			{
-				y_pos_ = (y1+1) * TILE_SIZE;
-				y_val_=0;
-			}
-		}
-	}
-
-
-
-	x_pos_ += x_val_;
-	y_pos_ += y_val_;
-
-	if(x_pos_<0) x_pos_ =0;
-	else if (x_pos_ + width > map_data.max_x_)
-	{
-		x_pos_ = map_data.max_x_ - width -1 ;
-	}
-	if(y_pos_ < TILE_SIZE ) y_pos_ = TILE_SIZE;
-	else if( y_pos_ + height > map_data.max_y_-TILE_SIZE)
-	{
-		y_pos_ = map_data.max_y_ -height -1-TILE_SIZE;
-	}
+    // Kiểm tra giới hạn của map
+    if (x_pos_ < 0) x_pos_ = 0;
+    else if (x_pos_ + width > map_data.max_x_) {
+        x_pos_ = map_data.max_x_ - width - 1;
+    }
+    if (y_pos_ < TILE_SIZE) y_pos_ = TILE_SIZE;
+    else if (y_pos_ + height > map_data.max_y_ - TILE_SIZE) {
+        y_pos_ = map_data.max_y_ - height - 1 - TILE_SIZE;
+    }
 }
 
-bool MainObject::CheckVaCham(Map& map_data, int &KIEMTRA, int& moi){
+bool MainObject::CheckVaCham(Map& map_data,const int &KIEMTRA,const int& moi){
 	int x1=0;
 	int y1=0;
 	int x2=0;
@@ -349,42 +326,32 @@ bool MainObject::CheckVaCham(Map& map_data, int &KIEMTRA, int& moi){
 }
 
 
-bool MainObject::checktaodoc(Map& map_data, int &TAODOC, int& moi)
+bool MainObject::checktaodoc(Map& map_data,const int& TAODOC,const int& moi)
 {
-	moi = MOI_TAO_DOC;
-	TAODOC = BLANK_TAODOC;
 	bool a = CheckVaCham(map_data,TAODOC,moi);
 	return a;
 }
 
-bool MainObject::checktaixiu(Map& map_data, int& TAIXIU, int& moi)
+bool MainObject::checktaixiu(Map& map_data,const int& TAIXIU,const int& moi)
 {
-	moi = MOI_TAI_XIU;
-	TAIXIU = BLANK_TAIXIU;
 	bool a = CheckVaCham(map_data, TAIXIU, moi);
 	return a;
 }
 
-bool MainObject::checkhoiphuc(Map& map_data, int& HOIPHUC, int& moi)
+bool MainObject::checkhoiphuc(Map& map_data,const int& HOIPHUC,const int& moi)
 {
-	moi = MOI_HOI_PHUC;
-	HOIPHUC = BLANK_HOIPHUC;
 	bool a = CheckVaCham(map_data, HOIPHUC, moi);
 	return a;
 }
 
-bool MainObject::checkbom(Map& map_data, int& BOM, int& moi)
+bool MainObject::checkbom(Map& map_data,const int& BOM,const int& moi)
 {
-	moi = MOI_BOM;
-	BOM = BLANK_BOM;
 	bool a = CheckVaCham(map_data, BOM, moi);
 	return a;
 }
 
-bool MainObject::checksieuhoiphuc(Map& map_data, int& SIEUHOIPHUC, int& moi)
+bool MainObject::checksieuhoiphuc(Map& map_data,const int& SIEUHOIPHUC,const int& moi)
 {
-	moi = MOI_SIEU_HOI_PHUC;
-	SIEUHOIPHUC = BLANK_SIEUHOIPHUC;
 	bool a = CheckVaCham(map_data, SIEUHOIPHUC, moi);
 	return a;
 }
