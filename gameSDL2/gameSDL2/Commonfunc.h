@@ -9,6 +9,8 @@
 #include<SDL_ttf.h>
 #include<fstream>
 #include<vector>
+#include<ctime>
+#include<cstdlib>
 
 
 const int BLANK_TILE = 2;

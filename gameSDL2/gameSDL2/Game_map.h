@@ -23,6 +23,8 @@ public:
 	Map getMap() const { return game_map_;}
 	void SetMap(Map& map_data){game_map_ = map_data;}
 	void KhoiPhucMap(Map& map_data);
+	void random_vatcan(Map& map_data);
+
 private: 
 	Map game_map_;
 	TileMat tile_mat[MAX_TILES];

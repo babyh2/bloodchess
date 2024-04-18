@@ -123,3 +123,21 @@ void GameMap::KhoiPhucMap(Map& map_data)
 		}
 	}
 }
+
+
+void GameMap::random_vatcan(Map& map_data)
+{
+	unsigned seed = time(0);
+	srand(seed);
+
+
+	for(int i=0;i<MAX_MAP_Y;i++)
+	{
+		for(int j=0;j<MAX_MAP_X;j++){
+			if(map_data.tile[i][j] == 1)
+			{
+				map_data.tile[i][j] = (rand()% 4 )+3;
+			}
+		}
+	}
+}
