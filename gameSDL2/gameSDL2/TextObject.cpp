@@ -52,7 +52,7 @@ void TextObject::SetColor(const int& type) {
 		Text_Color_ = color;
 	}
 	else if(type == WHITE)
-	{
+	{ 
 		SDL_Color color = {255, 255, 255, 255};
 		Text_Color_ = color;
 	}

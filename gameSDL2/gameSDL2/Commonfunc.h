@@ -33,6 +33,8 @@ static SDL_Window* g_window;
 static SDL_Renderer* g_screen;
 static SDL_Event g_event;
 
+
+static SDL_Renderer* g_menu;
 //screen
 const int FRAME_PER_SECOND = 30;
 const int SCREEN_WIDTH = 1120;

@@ -192,7 +192,7 @@ void MainObject::CheckToMap(Map& map_data) {
     if (x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 < MAX_MAP_Y) {
         if (x_val_ > 0) { // Di chuyển sang phải
             if (map_data.tile[y1][x2] == BLANK_TILE || map_data.tile[y2][x2] == BLANK_TILE) {
-                x_pos_ = (x2-1) * TILE_SIZE +2;
+                x_pos_ = (x2-1) * TILE_SIZE ;
                 x_val_ = 0;
             }
         } else if (x_val_ < 0) { // Di chuyển sang trái
@@ -213,7 +213,7 @@ void MainObject::CheckToMap(Map& map_data) {
     if (x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 < MAX_MAP_Y) {
         if (y_val_ > 0) { // Di chuyển xuống
             if (map_data.tile[y2][x1] == BLANK_TILE || map_data.tile[y2][x2] == BLANK_TILE) {
-                y_pos_ = (y2-1) * TILE_SIZE + 2;
+                y_pos_ = (y2-1) * TILE_SIZE ;
                 y_val_ = 0;
             }
         } else if (y_val_ < 0) { // Di chuyển lên
@@ -320,11 +320,9 @@ bool MainObject::CheckVaCham(Map& map_data,const int &KIEMTRA,const int& moi){
 			}
 		}
 	}
-
 	x_pos_+=x_val_;
 	y_pos_+=y_val_;
 	return false;
-
 }
 
 

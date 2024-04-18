@@ -95,27 +95,22 @@ void GameMap::KhoiPhucMap(Map& map_data)
 			{
 			case MOI_TAO_DOC:
 				{
-					map_data.tile[i][j]=BLANK_TAODOC;
+					map_data.tile[i][j]=1;
 					break;
 				}
 			case MOI_HOI_PHUC:
 				{
-					map_data.tile[i][j]=BLANK_HOIPHUC;
+					map_data.tile[i][j]=1;
 					break;
 				}
 			case MOI_BOM:
 				{
-					map_data.tile[i][j]=BLANK_BOM;
+					map_data.tile[i][j]=1;
 					break;
 				}
 			case MOI_SIEU_HOI_PHUC:
 				{
-					map_data.tile[i][j]=BLANK_SIEUHOIPHUC;
-					break;
-				}
-			case MOI_TAI_XIU:
-				{
-					map_data.tile[i][j]=BLANK_TAIXIU;
+					map_data.tile[i][j]=1;
 					break;
 				}
 			default: break;
