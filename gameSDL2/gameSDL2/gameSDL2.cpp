@@ -22,6 +22,7 @@ bool InitData();
 // ham tai background
 
 bool LoadBackground();
+
 // ham giai phong cac doi tuong
 void close();
 
@@ -85,6 +86,9 @@ int main(int argc, char* argv[])
 		game_map.DrawMap(g_screen);
 
 
+
+
+		
 		std::string mark_value_str = std::to_string(mark_value);
         mark_game.LoadText(g_font_text, mark_value_str, g_screen);
         mark_game.RenderText(g_screen, 100, 10);
@@ -178,6 +182,9 @@ bool LoadBackground(){
 	if(ret == false ) return false;
 	return true;
 }
+
+
+
 
 void close(){
 	// tat tat ca cac hd va dua toan bo con tro ve null

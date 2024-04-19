@@ -16,8 +16,9 @@ public:
 
     bool LoadMenu(SDL_Renderer* screen, std::string temp);
 	void Show(SDL_Renderer* screen,int x,int y);
-	void ShowMenu(SDL_Renderer* screen, TTF_Font* font);
-
+	int ShowMenu(SDL_Renderer* screen, TTF_Font* font);
+    
+	bool CheckFocus(const int &x,const int &y,const  SDL_Rect& rect);
 };
 
 #endif // MENU_H

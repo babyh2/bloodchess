@@ -29,58 +29,95 @@ void Menu::Show(SDL_Renderer* screen,int x,int y)
 	SDL_RenderCopy(screen, p_object, NULL, &renderQuad);
 }
 
-void Menu::ShowMenu(SDL_Renderer* screen, TTF_Font* font) {
-
-    // Hiển thị menu lên màn hình
-	
-	const int kMenuNum = 4;
-	SDL_Rect pos_arr[kMenuNum];
-
-	pos_arr[0].x = 200;
-	pos_arr[0].y = 300;
-
-	pos_arr[1].x = 200;
-	pos_arr[1].y = 400;
-	
-	pos_arr[2].x = 200;
-	pos_arr[2].y = 500;
-
-	pos_arr[3].x = 200;
-	pos_arr[3].y = 600;
-
-	TextObject textMenu[kMenuNum];
-
-	textMenu[0].SetColor(TextObject::BLACK);
-	textMenu[0].SetRect(pos_arr[0].x,pos_arr[0].y);
-	textMenu[0].LoadText(font, "START GAME", screen);
-
-
-	textMenu[1].SetColor(TextObject::BLACK);
-	textMenu[1].SetRect(pos_arr[1].x,pos_arr[1].y);
-	textMenu[1].LoadText(font, "EXIT", screen);
-
-	textMenu[2].SetColor(TextObject::BLACK);
-	textMenu[2].SetRect(pos_arr[2].x,pos_arr[2].y);
-	textMenu[2].LoadText(font, "INSTRUCTION", screen);
-
-	textMenu[3].SetColor(TextObject::BLACK);
-	textMenu[3].SetRect(pos_arr[3].x,pos_arr[3].y);
-	textMenu[3].LoadText(font, "HIGH SCORE", screen);
-
-
-	bool selected[kMenuNum] = {0,0,0,0};
-
-	// vong lap hien thi chuot va menu
-	SDL_Event m_event;
-
-	while(true)
-	{
-		LoadMenu(screen, "menuchinh.png");
-		Show(screen, 0,0);
-		for(int i=0;i<kMenuNum;i++)
-		{
-			textMenu[i].RenderText(screen, pos_arr[i].x, pos_arr[i].y);
-		}
-	}
-	
+bool Menu::CheckFocus(const int& x, const int& y, const SDL_Rect& rect)
+{
+	if(x>=rect.x && x < rect.x + rect.w
+		&& y>=rect.y && y<=rect.y + rect.h)
+		return true;
+	else return false;
 }
+
+int Menu::ShowMenu(SDL_Renderer* screen, TTF_Font* font) {
+    const int kMenuNum = 4;
+    SDL_Rect pos_arr[kMenuNum] = {
+        {200, 300, 0, 0},
+        {200, 400, 0, 0},
+        {200, 500, 0, 0},
+        {200, 600, 0, 0}
+    };
+
+    TextObject textMenu[kMenuNum];
+    const std::string menuItems[kMenuNum] = {"START GAME", "EXIT", "INSTRUCTION", "HIGH SCORE"};
+    
+    // Thiết lập menu ban đầu
+    for (int i = 0; i < kMenuNum; i++) {
+        textMenu[i].SetColor(TextObject::BLACK);
+        textMenu[i].LoadText(font, menuItems[i], screen);
+        textMenu[i].SetRect(pos_arr[i].x, pos_arr[i].y);
+        textMenu[i].GetSize(pos_arr[i].w, pos_arr[i].h);
+    }
+
+    // Mảng để theo dõi mục menu đã chọn
+    bool selected[kMenuNum] = {false, false, false, false};
+
+	int xm =0;
+	int ym =0;
+
+    // Vòng lặp chính để hiển thị menu
+    SDL_Event m_event;
+    while (true) {
+        // Load background menu và hiển thị
+        LoadMenu(screen, "menuchinh.png");
+        Show(screen, 0, 0);
+        
+        // Hiển thị các mục menu
+        for (int i = 0; i < kMenuNum; i++) {
+            textMenu[i].RenderText(screen, pos_arr[i].x, pos_arr[i].y);
+        }
+
+        // Xử lý sự kiện
+        while (SDL_PollEvent(&m_event)) {
+            if (m_event.type == SDL_QUIT) {
+                // Thoát chương trình
+                return 1;
+            } else if (m_event.type == SDL_MOUSEMOTION) {
+                // Xử lý sự kiện di chuyển chuột
+                xm = m_event.motion.x;
+                ym = m_event.motion.y;
+                for (int i = 0; i < kMenuNum; i++) {
+                    if (CheckFocus(xm, ym, pos_arr[i])) {
+                        if (!selected[i]) {
+                            selected[i] = true;
+                            textMenu[i].SetColor(TextObject::GREEN);
+                        }
+                    } else {
+                        if (selected[i]) {
+                            selected[i] = false;
+                            textMenu[i].SetColor(TextObject::BLACK);
+                        }
+                    }
+                }
+            } else if (m_event.type == SDL_MOUSEBUTTONDOWN) {
+                // Xử lý sự kiện nhấp chuột
+                xm = m_event.button.x;
+                ym = m_event.button.y;
+                for (int i = 0; i < kMenuNum; i++) {
+                    if (CheckFocus(xm, ym, pos_arr[i])) {
+                        // Người dùng chọn mục menu
+                        return i; // Trả về chỉ số của mục menu đã chọn
+                    }
+                }
+            } else if (m_event.type == SDL_KEYDOWN) {
+                if (m_event.key.keysym.sym == SDLK_ESCAPE) {
+                    // Thoát chương trình khi nhấn phím Escape
+                    return 1;
+                }
+            }
+        }
+        
+        // Cập nhật màn hình sau khi xử lý sự kiện
+        SDL_RenderPresent(screen);
+    }
+	return 1;
+}
+

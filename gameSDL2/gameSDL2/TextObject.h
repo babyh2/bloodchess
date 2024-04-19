@@ -9,6 +9,7 @@ public:
     TextObject();
     ~TextObject();
 
+
     enum Color {
         RED = 1,
         GREEN = 2,
@@ -21,7 +22,7 @@ public:
     bool LoadText(TTF_Font* font, std::string text, SDL_Renderer* screen);
     void RenderText(SDL_Renderer* des, int x, int y);
     void SetColor(const int& type); // Thêm phương thức SetColor
-
+	void GetSize(int &width, int &height) const;
 private:
     SDL_Texture* text_texture_;
 	SDL_Color Text_Color_;

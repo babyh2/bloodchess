@@ -25,6 +25,8 @@ bool TextObject::LoadText(TTF_Font* font, std::string text, SDL_Renderer* screen
     return text_texture_ != NULL;
 }
 
+
+
 void TextObject::RenderText(SDL_Renderer* des, int x, int y) {
     SDL_Rect render_quad = { x, y, rect_.w, rect_.h };
     SDL_RenderCopy(des, text_texture_, NULL, &render_quad);
@@ -62,3 +64,10 @@ void TextObject::SetColor(const int& type) {
 		Text_Color_ = color;
 	}
 }
+void TextObject::GetSize(int &width, int &height) const {
+    // Lấy chiều rộng và chiều cao từ thuộc tính rect_
+    width = rect_.w;
+    height = rect_.h;
+}
+
+
