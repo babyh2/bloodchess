@@ -177,68 +177,59 @@ void MainObject::CenterEntityOnMap(Map& map_data)
 }
 
 void MainObject::CheckToMap(Map& map_data) {
-    int x1 = 0;
-    int x2 = 0;
-    int y1 = 0;
-    int y2 = 0;
+    // Tính toán tọa độ ô tile mà nhân vật chiếm đóng
+    int x1 = (x_pos_ + x_val_) / TILE_SIZE;
+    int x2 = (x_pos_ + x_val_ + width - 1) / TILE_SIZE;
+    int y1 = (y_pos_ + y_val_) / TILE_SIZE;
+    int y2 = (y_pos_ + y_val_ + height - 1) / TILE_SIZE;
 
-    // Kiểm tra va chạm theo chiều cao
-    int height_min = height < TILE_SIZE ? height : TILE_SIZE;
-    x1 = (x_pos_ + x_val_) / TILE_SIZE;
-    x2 = (x_pos_ + x_val_ + width - 1) / TILE_SIZE;
-    y1 = (y_pos_ ) / TILE_SIZE;
-    y2 = (y_pos_ + height_min - 1) / TILE_SIZE;
-
-    if (x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 < MAX_MAP_Y) {
-        if (x_val_ > 0) { // Di chuyển sang phải
-            if (map_data.tile[y1][x2] == BLANK_TILE || map_data.tile[y2][x2] == BLANK_TILE) {
-				x_pos_ = x2 * TILE_SIZE - width;
-                x_val_ = 0;
-            }
-        } else if (x_val_ < 0) { // Di chuyển sang trái
-            if (map_data.tile[y1][x1] == BLANK_TILE || map_data.tile[y2][x1] == BLANK_TILE) {
-                x_pos_ = (x1 + 1) * TILE_SIZE;
-                x_val_ = 0;
-            }
+    // Kiểm tra va chạm theo chiều ngang
+    if (x_val_ > 0) { // Di chuyển sang phải
+        if (map_data.tile[y1][x2] == BLANK_TILE || map_data.tile[y2][x2] == BLANK_TILE) {
+            x_pos_ = x2 * TILE_SIZE - width; // Điều chỉnh vị trí nhân vật để tránh va chạm
+            x_val_ = 0; // Dừng di chuyển theo chiều ngang
+        }
+    } else if (x_val_ < 0) { // Di chuyển sang trái
+        if (map_data.tile[y1][x1] == BLANK_TILE || map_data.tile[y2][x1] == BLANK_TILE) {
+            x_pos_ = (x1 + 1) * TILE_SIZE; // Điều chỉnh vị trí nhân vật để tránh va chạm
+            x_val_ = 0; // Dừng di chuyển theo chiều ngang
         }
     }
 
     // Kiểm tra va chạm theo chiều dọc
-    int width_min = width < TILE_SIZE ? width : TILE_SIZE;
-    x1 = x_pos_ / TILE_SIZE;
-    x2 = (x_pos_ + width_min) / TILE_SIZE;
-    y1 = (y_pos_ + y_val_) / TILE_SIZE;
-    y2 = (y_pos_ + y_val_ + height - 1) / TILE_SIZE;
-
-    if (x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 < MAX_MAP_Y) {
-        if (y_val_ > 0) { // Di chuyển xuống
-            if (map_data.tile[y2][x1] == BLANK_TILE || map_data.tile[y2][x2] == BLANK_TILE) {
-				y_pos_ = y2 * TILE_SIZE - height;
-                y_val_ = 0;
-            }
-        } else if (y_val_ < 0) { // Di chuyển lên
-            if (map_data.tile[y1][x1] == BLANK_TILE || map_data.tile[y1][x2] == BLANK_TILE) {
-                y_pos_ = (y1 + 1) * TILE_SIZE;
-                y_val_ = 0;
-            }
+    if (y_val_ > 0) { // Di chuyển xuống
+        if (map_data.tile[y2][x1] == BLANK_TILE || map_data.tile[y2][x2] == BLANK_TILE) {
+            y_pos_ = y2 * TILE_SIZE - height; // Điều chỉnh vị trí nhân vật để tránh va chạm
+            y_val_ = 0; // Dừng di chuyển theo chiều dọc
+        }
+    } else if (y_val_ < 0) { // Di chuyển lên
+        if (map_data.tile[y1][x1] == BLANK_TILE || map_data.tile[y1][x2] == BLANK_TILE) {
+            y_pos_ = (y1 + 1) * TILE_SIZE; // Điều chỉnh vị trí nhân vật để tránh va chạm
+            y_val_ = 0; // Dừng di chuyển theo chiều dọc
         }
     }
 
-    // Cập nhật vị trí sau khi kiểm tra va chạm
+    // Cập nhật vị trí nhân vật sau khi kiểm tra va chạm
     x_pos_ += x_val_;
     y_pos_ += y_val_;
 
-    // Kiểm tra giới hạn của map
-    if (x_pos_ < 0) x_pos_ = 0;
-    else if (x_pos_ + width > map_data.max_x_) {
-        x_pos_ = map_data.max_x_ - width - 1;
+    // Kiểm tra giới hạn của bản đồ
+    if (x_pos_ < 0) {
+        x_pos_ = 0;
+        x_val_ = 0;
+    } else if (x_pos_ + width > map_data.max_x_) {
+        x_pos_ = map_data.max_x_ - width;
+        x_val_ = 0;
     }
-    if (y_pos_ < TILE_SIZE) y_pos_ = TILE_SIZE;
-    else if (y_pos_ + height > map_data.max_y_ - TILE_SIZE) {
-        y_pos_ = map_data.max_y_ - height - 1 - TILE_SIZE;
+
+    if (y_pos_ < 0) {
+        y_pos_ = 0;
+        y_val_ = 0;
+    } else if (y_pos_ + height > map_data.max_y_) {
+        y_pos_ = map_data.max_y_ - height;
+        y_val_ = 0;
     }
 }
-
 
 
 bool MainObject::CheckVaCham(Map& map_data,const int &KIEMTRA,const int& moi){
