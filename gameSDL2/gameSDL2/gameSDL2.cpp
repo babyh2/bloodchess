@@ -8,6 +8,7 @@
 #include"MainObject.h"
 #include"ImpTime.h"
 #include"TextObject.h"
+#include"Menu.h"
 
 
 TTF_Font* g_font_text = NULL;
@@ -25,6 +26,8 @@ bool LoadBackground();
 
 // ham giai phong cac doi tuong
 void close();
+
+Menu menu_game;
 
 
 int main(int argc, char* argv[])
@@ -48,9 +51,14 @@ int main(int argc, char* argv[])
 	mark_game.SetColor(TextObject::RED);
 	
 
-	int mark_value = 100;
+	int mark_value=100;
 	// tao mot vong lap vo han de load tam anh 
 	bool is_quit = false;
+
+	int ret_menu = menu_game.ShowMenu(g_screen, g_font_text);
+	if(ret_menu == 1) is_quit = true;
+
+
 	while(!is_quit){
 		
 		fps_timer.start();
@@ -59,7 +67,7 @@ int main(int argc, char* argv[])
 		{
 			if(g_event.type == SDL_QUIT ) {
 				is_quit = true;
-				//mark_value =100;
+				mark_value =100;
 			}
 			p_player.HandelInputAction(g_event, g_screen);
 		}

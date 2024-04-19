@@ -51,7 +51,7 @@ int Menu::ShowMenu(SDL_Renderer* screen, TTF_Font* font) {
     
     // Thiết lập menu ban đầu
     for (int i = 0; i < kMenuNum; i++) {
-        textMenu[i].SetColor(TextObject::BLACK);
+		textMenu[i].SetColor(TextObject::RED);
         textMenu[i].LoadText(font, menuItems[i], screen);
         textMenu[i].SetRect(pos_arr[i].x, pos_arr[i].y);
         textMenu[i].GetSize(pos_arr[i].w, pos_arr[i].h);
@@ -88,12 +88,12 @@ int Menu::ShowMenu(SDL_Renderer* screen, TTF_Font* font) {
                     if (CheckFocus(xm, ym, pos_arr[i])) {
                         if (!selected[i]) {
                             selected[i] = true;
-                            textMenu[i].SetColor(TextObject::GREEN);
+							textMenu[i].SetColor(TextObject::YELLOW);
                         }
                     } else {
                         if (selected[i]) {
                             selected[i] = false;
-                            textMenu[i].SetColor(TextObject::BLACK);
+							textMenu[i].SetColor(TextObject::RED);
                         }
                     }
                 }
