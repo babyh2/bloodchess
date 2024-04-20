@@ -9,6 +9,7 @@
 #include"ImpTime.h"
 #include"TextObject.h"
 #include"Menu.h"
+#include"Game_Tai_Xiu.h"
 
 
 TTF_Font* g_font_text = NULL;
@@ -26,7 +27,7 @@ bool LoadBackground();
 
 // ham giai phong cac doi tuong
 void close();
-
+Game_Tai_Xiu tai_xiu;
 Menu menu_game;
 
 
@@ -49,7 +50,9 @@ int main(int argc, char* argv[])
 
 	TextObject mark_game;
 	mark_game.SetColor(TextObject::RED);
-	int high_score;
+	
+
+	bool check;
 
 	int mark_value =100;
 	// tao mot vong lap vo han de load tam anh 
@@ -125,7 +128,11 @@ int main(int argc, char* argv[])
 			mark_value +=30;
 		}
 
-		
+		if(p_player.checktaixiu(map_data,BLANK_TAIXIU))
+		{
+			tai_xiu.ShowMenuTaiXiu(g_screen, g_font_text, check);
+			tai_xiu.gameThuc(g_screen, g_font_text, mark_value, check);
+		}
         // Hiển thị giá trị của mark_value lên màn hình
         
 

@@ -323,10 +323,89 @@ bool MainObject::checktaodoc(Map& map_data,const int& TAODOC,const int& moi)
 	return a;
 }
 
-bool MainObject::checktaixiu(Map& map_data,const int& TAIXIU,const int& moi)
+bool MainObject::checktaixiu(Map& map_data,const int& KIEMTRA)
 {
-	bool a = CheckVaCham(map_data, TAIXIU, moi);
-	return a;
+	int x1=0;
+	int y1=0;
+	int x2=0;
+	int y2=0;
+
+	int height_min = height < TILE_SIZE ? height : TILE_SIZE;
+	x1 = (x_pos_ + x_val_)/ TILE_SIZE;
+	x2 = (x_pos_ + x_val_ + width -1)/ TILE_SIZE;
+
+	y1 = (y_pos_ + y_val_)/TILE_SIZE;
+	y2 = (y_pos_ + y_val_ +height_min -1)/TILE_SIZE;
+
+	if(x1>=0 && x2<MAX_MAP_X && y1>0 && y2<MAX_MAP_Y)
+	{
+		if(x_val_ > 0)// vat dang di chuyen tien sang phai
+		{
+			if(map_data.tile[y1][x2] == KIEMTRA)
+			{
+				
+				return true;
+			}
+			else if(map_data.tile[y2][x2] == KIEMTRA)
+			{
+				
+				return true;
+			}
+		}
+		else if(x_val_ < 0)
+		{
+			if(map_data.tile[y1][x1] == KIEMTRA)
+			{
+				
+				return true;
+			}
+			else if(map_data.tile[y2][x1] == KIEMTRA)
+			{
+			
+				return true;
+			}
+		}
+	}
+
+	int width_min = width < TILE_SIZE ? width : TILE_SIZE;
+	x1 = x_pos_ / TILE_SIZE;
+	x2 = (x_pos_ + width_min) / TILE_SIZE;
+
+	y1 = (y_pos_ + y_val_) / TILE_SIZE;
+	y2 = (y_pos_ + y_val_ + height -1) / TILE_SIZE;
+
+	if(x1>=0 && x2<MAX_MAP_X && y1>=0 && y2<MAX_MAP_Y)
+	{
+		if(y_val_ >0)
+		{
+			if(map_data.tile[y2][x1] == KIEMTRA )
+			{
+				
+				return true;
+			}
+			else if(map_data.tile[y2][x2] == KIEMTRA)
+			{
+				
+				return true;
+			}
+		}
+		if(y_val_<0)
+		{
+			if(map_data.tile[y1][x1] == KIEMTRA )
+			{
+				
+				return true;
+			}
+			else if( map_data.tile[y1][x2] == KIEMTRA)
+			{
+				
+				return true;
+			}
+		}
+	}
+	x_pos_+=x_val_;
+	y_pos_+=y_val_;
+	return false;
 }
 
 bool MainObject::checkhoiphuc(Map& map_data,const int& HOIPHUC,const int& moi)

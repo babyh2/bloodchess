@@ -28,7 +28,7 @@ public:
 	bool CheckVaCham(Map& map_data,const int& KIEMTRA,const int& moi);
 	void SetMapXY(const int map_x, const int map_y){map_x_=map_x; map_y_ = map_y;}
 	void CenterEntityOnMap(Map& map_data);// ham lay vi tri khi nhan vat di chuyen
-	bool checktaixiu(Map& map_data,const int& TAIXIU,const int& moi);
+	bool checktaixiu(Map& map_data,const int& KIEMTRA);
 	bool checktaodoc(Map& map_data,const int &TAODOC,const int& moi);
 	bool checkhoiphuc(Map& map_data,const int &HOIPHUC,const int& moi);
 	bool checkbom(Map& map_data,const int &BOM,const int& moi);
