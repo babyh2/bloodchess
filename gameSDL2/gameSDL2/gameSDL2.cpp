@@ -49,9 +49,9 @@ int main(int argc, char* argv[])
 
 	TextObject mark_game;
 	mark_game.SetColor(TextObject::RED);
-	
+	int high_score;
 
-	int mark_value=100;
+	int mark_value =100;
 	// tao mot vong lap vo han de load tam anh 
 	bool is_quit = false;
 
@@ -66,6 +66,7 @@ int main(int argc, char* argv[])
 		while(SDL_PollEvent(&g_event) !=0)
 		{
 			if(g_event.type == SDL_QUIT ) {
+
 				is_quit = true;
 				mark_value =100;
 			}

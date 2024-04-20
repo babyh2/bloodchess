@@ -18,6 +18,9 @@ public:
 	void Show(SDL_Renderer* screen,int x,int y);
 	int ShowMenu(SDL_Renderer* screen, TTF_Font* font);
 	bool CheckFocus(const int &x,const int &y,const  SDL_Rect& rect);
+	int ShowMenuTaiXiu(SDL_Renderer* screen, TTF_Font* font);
+
+
 };
 
 #endif // MENU_H
