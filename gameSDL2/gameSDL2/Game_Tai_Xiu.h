@@ -18,8 +18,7 @@ public:
     void ShowMenu(SDL_Renderer* screen, int x, int y);
 	bool CheckTaiXiu(const int& x, const int& y, const SDL_Rect& rect);
 	void ShowMenuTaiXiu(SDL_Renderer* screen, TTF_Font* font, bool& game_running);
-	void gameThuc(SDL_Renderer* screen, TTF_Font* font, int &mark_value, bool& check);
-	void ranTaiXiu(SDL_Renderer* screen,int& numtong, int& mark_value, int taimoney, int xiumoney, TTF_Font* font);
+	void PlayTaiXiuGame(SDL_Renderer* screen, TTF_Font* font, int& mark_value, bool& game_running);
 
 
 

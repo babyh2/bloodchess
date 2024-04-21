@@ -33,7 +33,7 @@ public:
 	bool checkhoiphuc(Map& map_data,const int &HOIPHUC,const int& moi);
 	bool checkbom(Map& map_data,const int &BOM,const int& moi);
 	bool checksieuhoiphuc(Map& map_data,const int &SIEUHOIPHUC,const int& moi);
-	
+	bool checkCollision(const SDL_Rect& a, const SDL_Rect& s);
 
 
 

@@ -177,22 +177,26 @@ void MainObject::CenterEntityOnMap(Map& map_data)
 }
 
 void MainObject::CheckToMap(Map& map_data) {
-    // Tính toán tọa độ ô tile mà nhân vật chiếm đóng
     int x1 = (x_pos_ + x_val_) / TILE_SIZE;
     int x2 = (x_pos_ + x_val_ + width - 1) / TILE_SIZE;
     int y1 = (y_pos_ + y_val_) / TILE_SIZE;
     int y2 = (y_pos_ + y_val_ + height - 1) / TILE_SIZE;
+
+    bool is_x_collide = false;
+    bool is_y_collide = false;
 
     // Kiểm tra va chạm theo chiều ngang
     if (x_val_ > 0) { // Di chuyển sang phải
         if (map_data.tile[y1][x2] == BLANK_TILE || map_data.tile[y2][x2] == BLANK_TILE) {
             x_pos_ = x2 * TILE_SIZE - width; // Điều chỉnh vị trí nhân vật để tránh va chạm
             x_val_ = 0; // Dừng di chuyển theo chiều ngang
+            is_x_collide = true;
         }
     } else if (x_val_ < 0) { // Di chuyển sang trái
         if (map_data.tile[y1][x1] == BLANK_TILE || map_data.tile[y2][x1] == BLANK_TILE) {
             x_pos_ = (x1 + 1) * TILE_SIZE; // Điều chỉnh vị trí nhân vật để tránh va chạm
             x_val_ = 0; // Dừng di chuyển theo chiều ngang
+            is_x_collide = true;
         }
     }
 
@@ -201,12 +205,19 @@ void MainObject::CheckToMap(Map& map_data) {
         if (map_data.tile[y2][x1] == BLANK_TILE || map_data.tile[y2][x2] == BLANK_TILE) {
             y_pos_ = y2 * TILE_SIZE - height; // Điều chỉnh vị trí nhân vật để tránh va chạm
             y_val_ = 0; // Dừng di chuyển theo chiều dọc
+            is_y_collide = true;
         }
     } else if (y_val_ < 0) { // Di chuyển lên
         if (map_data.tile[y1][x1] == BLANK_TILE || map_data.tile[y1][x2] == BLANK_TILE) {
             y_pos_ = (y1 + 1) * TILE_SIZE; // Điều chỉnh vị trí nhân vật để tránh va chạm
             y_val_ = 0; // Dừng di chuyển theo chiều dọc
+            is_y_collide = true;
         }
+    }
+
+    // Nếu có va chạm theo cả hai chiều, không cập nhật vị trí
+    if (is_x_collide && is_y_collide) {
+        return;
     }
 
     // Cập nhật vị trí nhân vật sau khi kiểm tra va chạm
@@ -329,7 +340,7 @@ bool MainObject::checktaixiu(Map& map_data,const int& KIEMTRA)
 	int y1=0;
 	int x2=0;
 	int y2=0;
-
+	bool isCollided= false;
 	int height_min = height < TILE_SIZE ? height : TILE_SIZE;
 	x1 = (x_pos_ + x_val_)/ TILE_SIZE;
 	x2 = (x_pos_ + x_val_ + width -1)/ TILE_SIZE;
@@ -344,12 +355,12 @@ bool MainObject::checktaixiu(Map& map_data,const int& KIEMTRA)
 			if(map_data.tile[y1][x2] == KIEMTRA)
 			{
 				
-				return true;
+				 isCollided=  true;
 			}
 			else if(map_data.tile[y2][x2] == KIEMTRA)
 			{
 				
-				return true;
+				 isCollided=  true;
 			}
 		}
 		else if(x_val_ < 0)
@@ -357,12 +368,12 @@ bool MainObject::checktaixiu(Map& map_data,const int& KIEMTRA)
 			if(map_data.tile[y1][x1] == KIEMTRA)
 			{
 				
-				return true;
+				 isCollided=  true;
 			}
 			else if(map_data.tile[y2][x1] == KIEMTRA)
 			{
 			
-				return true;
+				 isCollided=  true;
 			}
 		}
 	}
@@ -381,12 +392,12 @@ bool MainObject::checktaixiu(Map& map_data,const int& KIEMTRA)
 			if(map_data.tile[y2][x1] == KIEMTRA )
 			{
 				
-				return true;
+				 isCollided=  true;
 			}
 			else if(map_data.tile[y2][x2] == KIEMTRA)
 			{
 				
-				return true;
+				 isCollided=  true;
 			}
 		}
 		if(y_val_<0)
@@ -394,18 +405,22 @@ bool MainObject::checktaixiu(Map& map_data,const int& KIEMTRA)
 			if(map_data.tile[y1][x1] == KIEMTRA )
 			{
 				
-				return true;
+			 isCollided=  true;
 			}
 			else if( map_data.tile[y1][x2] == KIEMTRA)
 			{
 				
-				return true;
+				 isCollided=  true;
 			}
 		}
 	}
+	if(!isCollided){
+		
+	
 	x_pos_+=x_val_;
 	y_pos_+=y_val_;
-	return false;
+	}
+	return isCollided;
 }
 
 bool MainObject::checkhoiphuc(Map& map_data,const int& HOIPHUC,const int& moi)

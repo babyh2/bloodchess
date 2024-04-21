@@ -25,7 +25,7 @@ const int MOI_HOI_PHUC = 9;
 const int MOI_BOM = 10;
 const int MOI_SIEU_HOI_PHUC = 11;
 const int MOI_TAI_XIU = 12;
-
+const int END_GAME = 15;
 
 #define GA_FAILED -1
 
