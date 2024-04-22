@@ -9,7 +9,7 @@
 #include"ImpTime.h"
 #include"TextObject.h"
 #include"Menu.h"
-#include"Game_Tai_Xiu.h"
+
 
 
 TTF_Font* g_font_text = NULL;
@@ -24,12 +24,10 @@ bool InitData();
 // ham tai background
 
 bool LoadBackground();
+void RenderTextFor5Seconds(SDL_Renderer* screen, TTF_Font* font, const std::string& text,SDL_Color color);
 
-
-void DisplayWinScreen(SDL_Renderer* g_screen, TTF_Font* g_font_text, bool& is_quit, bool& game_running) ;
 // ham giai phong cac doi tuong
 void close();
-Game_Tai_Xiu tai_xiu;
 Menu menu_game;
 
 
@@ -50,24 +48,78 @@ int main(int argc, char* argv[])
 	game_map.random_vatcan(map_data);
 
 	MainObject p_player;
-	p_player.LoadImg("img/sieunhan_right.jpg", g_screen);
+	
 
 	TextObject mark_game;
 	mark_game.SetColor(TextObject::RED);
-	
+	SDL_Color red = {255,0,0,255};
 
-	bool check=true;
-	bool justPlay =false;
+	int coin = 0;
 	int mark_value =100;
 	// tao mot vong lap vo han de load tam anh 
 	bool is_quit = false;
-
-	int ret_menu = menu_game.ShowMenu(g_screen, g_font_text);
-	if(ret_menu == 1) is_quit = true;
-
+	bool inMenu = false ;
+	bool inShop = false;
+	bool inGame = false; 
+	int nhanvat;
+	bool damua = false ;
 
 	while(!is_quit){
 		
+
+	   while(!inMenu)
+		{
+			int ret_menu = menu_game.ShowMenu(g_screen, g_font_text);
+	        if(ret_menu == 1) is_quit = true;
+			else if(ret_menu == 2) {
+				inShop = false;
+				inMenu = true;
+				inGame = true;
+			}
+			else if(ret_menu ==0)
+			{
+				inShop = true;
+				inMenu = true;
+				inGame = false ;
+			}
+		}
+	   while(!inShop)
+		{
+			int muaban = menu_game.menuMuaBan(g_screen, g_font_text);
+			if(muaban == 0)
+			{
+				p_player.LoadImg("img/sieunhan_right.jpg", g_screen);
+				nhanvat = 1;
+			}
+			else if(muaban == 1)
+			{
+				if(coin>=100) {
+					coin -= 100;
+					damua = true;
+				}
+				else 
+				{
+					RenderTextFor5Seconds(g_screen, g_font_text, "ban khong du tien hay choi game de mua",red);
+				}
+			}
+			else if(muaban == 2)
+			{
+				if(damua) nhanvat =2;
+				else 
+				{
+					RenderTextFor5Seconds(g_screen, g_font_text, "ban chua co nhan vat nay hay choi game", red);
+				}
+			}
+			else if(muaban == 3)
+			{
+				inMenu = false;
+				inGame = true;
+				inShop = true;
+			}
+			
+		}
+
+	   while(!inGame){
 		fps_timer.start();
 
 		while(SDL_PollEvent(&g_event) !=0)
@@ -132,19 +184,9 @@ int main(int argc, char* argv[])
 			mark_value +=30;
 		}
 
-		if(p_player.checktaixiu(map_data,BLANK_TAIXIU))
-		{
-			
-			tai_xiu.PlayTaiXiuGame(g_screen,g_font_text,mark_value,check);
-			
-		}
+		
         // Hiển thị giá trị của mark_value lên màn hình
-        bool game_running;
-		if(p_player.checktaixiu(map_data,END_GAME))
-		{
-			DisplayWinScreen(g_screen, g_font_text, is_quit, game_running);
-			game_map.KhoiPhucMap(map_data);
-		}
+       
 
 
 		SDL_RenderPresent(g_screen);
@@ -156,7 +198,7 @@ int main(int argc, char* argv[])
 			
 			if(delay_time>=0) SDL_Delay(delay_time);// de chuong trinh chay nhanh hon thi tang fps len
 		}
-	}
+	   }}
 	game_map.KhoiPhucMap(map_data);
 	close();
 	return 0;
@@ -210,63 +252,55 @@ bool LoadBackground(){
 
 
 // Hàm hiển thị màn hình thắng cuộc
-void DisplayWinScreen(SDL_Renderer* g_screen, TTF_Font* g_font_text, bool& is_quit, bool& game_running) {
-    // Tải ảnh win.png
-    SDL_Surface* winSurface = IMG_Load("win.png");
-    SDL_Texture* winTexture = SDL_CreateTextureFromSurface(g_screen, winSurface);
-    SDL_FreeSurface(winSurface);
 
-    // Xác định vị trí trung tâm của màn hình
-    int centerX = SCREEN_WIDTH / 2 - 200;
-    int centerY = SCREEN_HEIGHT / 2 - 200;
+void RenderTextFor5Seconds(SDL_Renderer* screen, TTF_Font* font, const std::string& text,  SDL_Color color)
+{
+    // Tạo bề mặt văn bản (SDL_Surface) bằng hàm TTF_RenderText_Solid với văn bản và màu sắc đã cho
+    SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), color);
+    
+    // Nếu textSurface không được tạo thành công, hãy in thông báo lỗi và thoát khỏi hàm
+    if (!textSurface) {
+        
+        return;
+    }
+    
+    // Tạo texture từ bề mặt văn bản (textSurface)
+    SDL_Texture* textTexture = SDL_CreateTextureFromSurface(screen, textSurface);
+    
+    // Nếu textTexture không được tạo thành công, hãy in thông báo lỗi và thoát khỏi hàm
+    if (!textTexture) {
+       
+        SDL_FreeSurface(textSurface);
+        return;
+    }
 
-    // Vẽ ảnh win.png lên màn hình
-    SDL_Rect winRect = { centerX, centerY, 400, 400 };
-    SDL_RenderCopy(g_screen, winTexture, NULL, &winRect);
-    SDL_DestroyTexture(winTexture);
+    // Lấy kích thước văn bản từ textSurface
+    int textWidth = textSurface->w;
+    int textHeight = textSurface->h;
+    
+    // Tạo một SDL_Rect để xác định vị trí và kích thước của văn bản trên màn hình
+    SDL_Rect textRect = { 500,380, textWidth, textHeight };
 
-    // Hiển thị văn bản "replay" và "exit" trên ảnh
-    TextObject replayText, exitText;
-    replayText.SetColor(TextObject::WHITE);
-    replayText.LoadText(g_font_text, "Replay", g_screen);
-    replayText.RenderText(g_screen, centerX + 100, centerY + 150);
-
-    exitText.SetColor(TextObject::WHITE);
-    exitText.LoadText(g_font_text, "Exit", g_screen);
-    exitText.RenderText(g_screen, centerX + 100, centerY + 250);
+    // Hiển thị văn bản (text) lên màn hình tại vị trí và kích thước đã xác định
+    SDL_RenderCopy(screen, textTexture, nullptr, &textRect);
 
     // Cập nhật màn hình
-    SDL_RenderPresent(g_screen);
+    SDL_RenderPresent(screen);
 
-	int width1, height1, width2, height2;
-	replayText.GetSize(width1, height1);
-	exitText.GetSize(width2, height2);
+    // Đợi trong 5 giây trước khi xóa văn bản khỏi màn hình
+    SDL_Delay(5000);
 
-    // Kiểm tra lựa chọn của người chơi
-    bool choiceMade = false;
-    while (!choiceMade) {
-        SDL_Event event;
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_QUIT) {
-                is_quit = true;
-                choiceMade = true;
-            } else if (event.type == SDL_MOUSEBUTTONDOWN) {
-                int mouseX = event.button.x;
-                int mouseY = event.button.y;
+    // Xóa văn bản khỏi màn hình bằng cách tô vùng đó bằng màu nền (ở đây là màu đen)
+    SDL_SetRenderDrawColor(screen, 0, 0, 0, 255); // Màu đen
+    SDL_RenderFillRect(screen, &textRect);
+    
+    // Cập nhật màn hình sau khi xóa văn bản
+    SDL_RenderPresent(screen);
 
-                // Kiểm tra xem người chơi đã nhấn vào "replay" hoặc "exit"
-				if (mouseX >= centerX + 100 && mouseX <= centerX + 100 + width1 && mouseY >= centerY + 150 && mouseY <= centerY + 150 + height1) {
-                    game_running = true; // Đặt lại trạng thái trò chơi để bắt đầu vòng mới
-                    choiceMade = true;
-				} else if (mouseX >= centerX + 100 && mouseX <= centerX + 100 + width2 && mouseY >= centerY + 250 && mouseY <= centerY + 250 + height2) {
-                    is_quit = true; // Kết thúc trò chơi
-                    choiceMade = true;
-                }
-            }
-        }
-    }
+    // Giải phóng bề mặt và texture
+    SDL_FreeSurface(textSurface);
+    SDL_DestroyTexture(textTexture);
 }
-
 
 
 

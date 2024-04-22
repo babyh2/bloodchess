@@ -19,6 +19,7 @@ public:
 	int ShowMenu(SDL_Renderer* screen, TTF_Font* font);
 	bool CheckFocus(const int &x,const int &y,const  SDL_Rect& rect);
 	int ShowMenuTaiXiu(SDL_Renderer* screen, TTF_Font* font);
+	int menuMuaBan(SDL_Renderer* screen, TTF_Font* font );
 
 
 };

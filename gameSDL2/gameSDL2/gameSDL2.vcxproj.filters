@@ -45,9 +45,6 @@
     <ClInclude Include="Menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game_Tai_Xiu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -75,9 +72,6 @@
       <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="Menu.cpp">
-      <Filter>Resource Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game_Tai_Xiu.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>
