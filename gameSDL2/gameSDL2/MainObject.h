@@ -21,7 +21,7 @@ public:
 	};
 
 	bool LoadImg(std::string path, SDL_Renderer* screen);
-	void Show(SDL_Renderer* des);
+	void Show(SDL_Renderer* des, int x);
 	void HandelInputAction(SDL_Event events, SDL_Renderer* screen);
 	void DoPlayer(Map& map_data);
 	void CheckToMap(Map& map_data);

@@ -33,7 +33,8 @@ bool MainObject::LoadImg(std::string path, SDL_Renderer* screen){
 
 } // ham de xuat anh ke thua da hinh
 
-void MainObject::Show(SDL_Renderer* des){
+void MainObject::Show(SDL_Renderer* des, int x){
+	if(x==1){
 	if(status_ == WALK_LEFT){
 		LoadImg("img/sieunhan_left.jpg",des);
 	}
@@ -47,6 +48,8 @@ void MainObject::Show(SDL_Renderer* des){
 	else if(status_ == WALK_DOWN){
 		LoadImg("img/sieunhan_down.jpg",des);
 	}
+	}
+	else if(x==2) LoadImg("img/joker.png", des);
 	// cac ham xuat anh tuong ung
 	rect_.x=x_pos_ - map_x_; // lay vi tri
 	rect_.y=y_pos_ - map_y_; // khi chay nhan vat man hinh bi cuon theo nen phai tru di luong man hinh bi cuon di

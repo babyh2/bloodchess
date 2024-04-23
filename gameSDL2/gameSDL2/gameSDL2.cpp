@@ -54,72 +54,72 @@ int main(int argc, char* argv[])
 	mark_game.SetColor(TextObject::RED);
 	SDL_Color red = {255,0,0,255};
 
-	int coin = 0;
+	int coin = 200;
 	int mark_value =100;
 	// tao mot vong lap vo han de load tam anh 
 	bool is_quit = false;
-	bool inMenu = false ;
+	bool inMenu = true ;
 	bool inShop = false;
 	bool inGame = false; 
-	int nhanvat;
+	int nhanvat=1;
 	bool damua = false ;
+	bool through_menu = false;
+	bool through_home = false;
 
-	while(!is_quit){
-		
-
-	   while(!inMenu)
+	while(inMenu){
+		if(through_menu == false)
 		{
 			int ret_menu = menu_game.ShowMenu(g_screen, g_font_text);
-	        if(ret_menu == 1) is_quit = true;
-			else if(ret_menu == 2) {
-				inShop = false;
-				inMenu = true;
-				inGame = true;
-			}
-			else if(ret_menu ==0)
+			switch (ret_menu)
 			{
-				inShop = true;
-				inMenu = true;
-				inGame = false ;
+			case 0: through_home = true; inGame = true; break;
+			case 1: through_menu = false; inMenu = false; break;
+			case 2: through_home = true;inShop = true; break;
+			case 3: break;
+			default:
+				break;
 			}
-		}
-	   while(!inShop)
-		{
-			int muaban = menu_game.menuMuaBan(g_screen, g_font_text);
-			if(muaban == 0)
+			if(through_home == true)
 			{
-				p_player.LoadImg("img/sieunhan_right.jpg", g_screen);
-				nhanvat = 1;
-			}
-			else if(muaban == 1)
-			{
-				if(coin>=100) {
-					coin -= 100;
-					damua = true;
+				while(inShop){
+					std::string coin_str = std::to_string(coin);
+                    mark_game.LoadText(g_font_text, coin_str, g_screen);
+                    mark_game.RenderText(g_screen, 1000, 10);
+					
+					int muaban = menu_game.menuMuaBan(g_screen, g_font_text);
+					if (muaban == -1) return 0;
+					else if(muaban ==3) {inShop = false;  through_menu = false; inGame = false; }
+					else if(muaban ==0) 
+						{
+							nhanvat = 1; 
+							
+						}
+					else if(muaban ==1)
+						{
+							if(coin>=100)
+							{
+								coin -= 100;
+								damua = true;
+							}
+							else {
+								RenderTextFor5Seconds(g_screen, g_font_text, "ban chua du tien hay choi game", red);
+							}
+							
+						}
+					else if(muaban == 2)
+						{
+							if(damua == true)
+							{
+								nhanvat = 2;
+							}
+							else RenderTextFor5Seconds(g_screen, g_font_text, "ban chua co nhan vat nay hay choi game", red);
+						}
+					SDL_RenderPresent(g_screen);
 				}
-				else 
+				while(inGame)
 				{
-					RenderTextFor5Seconds(g_screen, g_font_text, "ban khong du tien hay choi game de mua",red);
-				}
-			}
-			else if(muaban == 2)
-			{
-				if(damua) nhanvat =2;
-				else 
-				{
-					RenderTextFor5Seconds(g_screen, g_font_text, "ban chua co nhan vat nay hay choi game", red);
-				}
-			}
-			else if(muaban == 3)
-			{
-				inMenu = false;
-				inGame = true;
-				inShop = true;
-			}
-			
-		}
-
-	   while(!inGame){
+					if(nhanvat ==1) p_player.LoadImg("img/sieunhan_right.jpg", g_screen);
+		            else if(nhanvat == 2) p_player.LoadImg("img/joker.png", g_screen);
 		fps_timer.start();
 
 		while(SDL_PollEvent(&g_event) !=0)
@@ -146,7 +146,7 @@ int main(int argc, char* argv[])
 
 
 		p_player.DoPlayer(map_data);
-		p_player.Show(g_screen);
+		p_player.Show(g_screen, nhanvat);
 
 		
 
@@ -198,7 +198,13 @@ int main(int argc, char* argv[])
 			
 			if(delay_time>=0) SDL_Delay(delay_time);// de chuong trinh chay nhanh hon thi tang fps len
 		}
-	   }}
+		}
+	   
+				}
+			}
+
+	   }//while(!in_menu)
+//if(through_menu)
 	game_map.KhoiPhucMap(map_data);
 	close();
 	return 0;
@@ -253,65 +259,50 @@ bool LoadBackground(){
 
 // Hàm hiển thị màn hình thắng cuộc
 
-void RenderTextFor5Seconds(SDL_Renderer* screen, TTF_Font* font, const std::string& text,  SDL_Color color)
-{
+void RenderTextFor5Seconds(SDL_Renderer* screen, TTF_Font* font, const std::string& text, SDL_Color color) {
     // Tạo bề mặt văn bản (SDL_Surface) bằng hàm TTF_RenderText_Solid với văn bản và màu sắc đã cho
     SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), color);
     
-    // Nếu textSurface không được tạo thành công, hãy in thông báo lỗi và thoát khỏi hàm
     if (!textSurface) {
-        
         return;
     }
     
-    // Tạo texture từ bề mặt văn bản (textSurface)
     SDL_Texture* textTexture = SDL_CreateTextureFromSurface(screen, textSurface);
     
-    // Nếu textTexture không được tạo thành công, hãy in thông báo lỗi và thoát khỏi hàm
     if (!textTexture) {
-       
         SDL_FreeSurface(textSurface);
         return;
     }
-
-    // Lấy kích thước văn bản từ textSurface
+    
     int textWidth = textSurface->w;
     int textHeight = textSurface->h;
     
-    // Tạo một SDL_Rect để xác định vị trí và kích thước của văn bản trên màn hình
-    SDL_Rect textRect = { 500,380, textWidth, textHeight };
+    SDL_Rect textRect = { 500, 380, textWidth, textHeight };
 
-    // Hiển thị văn bản (text) lên màn hình tại vị trí và kích thước đã xác định
+    // Hiển thị văn bản (text) lên màn hình
     SDL_RenderCopy(screen, textTexture, nullptr, &textRect);
-
-    // Cập nhật màn hình
     SDL_RenderPresent(screen);
 
-    // Đợi trong 5 giây trước khi xóa văn bản khỏi màn hình
+    // Đợi trong 5 giây
     SDL_Delay(5000);
 
-    // Xóa văn bản khỏi màn hình bằng cách tô vùng đó bằng màu nền (ở đây là màu đen)
-    SDL_SetRenderDrawColor(screen, 0, 0, 0, 255); // Màu đen
-    SDL_RenderFillRect(screen, &textRect);
-    
-    // Cập nhật màn hình sau khi xóa văn bản
-    SDL_RenderPresent(screen);
-
-    // Giải phóng bề mặt và texture
+    // Không xóa màn hình hoặc vùng văn bản, hãy để vòng lặp render của trò chơi tự quản lý
+    // Giải phóng tài nguyên
     SDL_FreeSurface(textSurface);
     SDL_DestroyTexture(textTexture);
 }
 
 
 
-void close(){
+void close() {
 	// tat tat ca cac hd va dua toan bo con tro ve null
 	g_background.Free();
 	SDL_DestroyRenderer(g_screen);
 	g_screen = NULL;
 	SDL_DestroyWindow(g_window);
-	g_window=NULL;
+	g_window = NULL;
 	IMG_Quit();
 	SDL_Quit();
 	TTF_Quit();
 }
+

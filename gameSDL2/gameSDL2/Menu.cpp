@@ -141,18 +141,19 @@ int Menu::menuMuaBan(SDL_Renderer* screen,TTF_Font* font)
         textMenu[i].GetSize(pos_arr[i].w, pos_arr[i].h);
     }
 	bool selected[kMenuNum] = {false, false, false, false, false };
-	int a = ShowMenu(screen, font);
-	while(a==2){
+	
+	while(true){
 	 LoadMenu(screen, "shop.png");
      Show(screen, 0, 0);
 	 for (int i = 0; i < kMenuNum; i++) {
             textMenu[i].RenderText(screen, pos_arr[i].x, pos_arr[i].y);
         }
 	SDL_Event m_event;
+	
 	while (SDL_PollEvent(&m_event)) {
             if (m_event.type == SDL_QUIT) {
                 // Thoát chương trình
-                return 1;
+                return -1;
             } else if (m_event.type == SDL_MOUSEMOTION) {
                 int xm = m_event.motion.x;
                 int ym = m_event.motion.y;
@@ -183,7 +184,17 @@ int Menu::menuMuaBan(SDL_Renderer* screen,TTF_Font* font)
                     }
                 }
 				}
+			else if (m_event.type == SDL_KEYDOWN) {
+                if (m_event.key.keysym.sym == SDLK_ESCAPE) {
+                    // Thoát chương trình khi nhấn phím Escape
+                    return -1;
+                }
+			}
+
 }
+	SDL_RenderPresent(screen);
+	
+	 
 	}
 	return 3;
 }
