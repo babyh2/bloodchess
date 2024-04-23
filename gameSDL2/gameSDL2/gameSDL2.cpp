@@ -44,7 +44,10 @@ int main(int argc, char* argv[])
 	GameMap game_map;
 	game_map.LoadMap("map/map01.dat");
 	game_map.LoadTiles(g_screen);
+
+	
 	Map map_data = game_map.getMap();
+	
 	game_map.random_vatcan(map_data);
 
 	MainObject p_player;
@@ -54,7 +57,7 @@ int main(int argc, char* argv[])
 	mark_game.SetColor(TextObject::RED);
 	SDL_Color red = {255,0,0,255};
 
-	int coin = 200;
+	int coin = 0;
 	int mark_value =100;
 	// tao mot vong lap vo han de load tam anh 
 	bool is_quit = false;
@@ -65,6 +68,9 @@ int main(int argc, char* argv[])
 	bool damua = false ;
 	bool through_menu = false;
 	bool through_home = false;
+	bool inMenuWin = false;
+	bool inMenuLoss = false;
+	bool chok= false;
 
 	while(inMenu){
 		if(through_menu == false)
@@ -82,11 +88,9 @@ int main(int argc, char* argv[])
 			if(through_home == true)
 			{
 				while(inShop){
-					std::string coin_str = std::to_string(coin);
-                    mark_game.LoadText(g_font_text, coin_str, g_screen);
-                    mark_game.RenderText(g_screen, 1000, 10);
 					
-					int muaban = menu_game.menuMuaBan(g_screen, g_font_text);
+					
+					int muaban = menu_game.menuMuaBan(g_screen, g_font_text, coin);
 					if (muaban == -1) return 0;
 					else if(muaban ==3) {inShop = false;  through_menu = false; inGame = false; }
 					else if(muaban ==0) 
@@ -118,6 +122,8 @@ int main(int argc, char* argv[])
 				}
 				while(inGame)
 				{
+					
+					
 					if(nhanvat ==1) p_player.LoadImg("img/sieunhan_right.jpg", g_screen);
 		            else if(nhanvat == 2) p_player.LoadImg("img/joker.png", g_screen);
 		fps_timer.start();
@@ -167,7 +173,8 @@ int main(int argc, char* argv[])
 		
 		if(p_player.checktaodoc(map_data, BLANK_TAODOC, MOI_TAO_DOC))
 		{
-			mark_value -= 10;
+			if(nhanvat == 1) mark_value -= 10;
+			else if(nhanvat ==2) mark_value -= 0;
 		}
 
 		else if(p_player.checkhoiphuc(map_data,BLANK_HOIPHUC,MOI_HOI_PHUC))
@@ -184,9 +191,23 @@ int main(int argc, char* argv[])
 			mark_value +=30;
 		}
 
+		else if(p_player.checktaixiu(map_data, END_GAME))
+		{
+			inMenuWin = true;
+			inGame = false;
+			
+		}
+
+
+		if(mark_value <=0)
+		{
+			inMenuLoss = true;
+			inGame = false;
+			
+		}
 		
         // Hiển thị giá trị của mark_value lên màn hình
-       
+      
 
 
 		SDL_RenderPresent(g_screen);
@@ -199,10 +220,54 @@ int main(int argc, char* argv[])
 			if(delay_time>=0) SDL_Delay(delay_time);// de chuong trinh chay nhanh hon thi tang fps len
 		}
 		}
-	   
+	   while(inMenuWin)
+	   {
+		   coin+=mark_value;
+		   int x = menu_game.menuWin(g_screen, g_font_text);
+		   if(x == 0) 
+				{
+					inMenuWin = false;
+					inMenuLoss = false;
+					game_map.KhoiPhucMap(map_data);
+					game_map.random_vatcan(map_data);
+					through_home = false;
+					 p_player.setPos(2, 762);
 				}
+				else if(x==1)
+				{
+					inMenuWin = false;
+					game_map.KhoiPhucMap(map_data);
+					through_menu = true;
+					inMenu = false;
+				}
+		  
+	   }
+	   while(inMenuLoss)
+	   {
+		        int x = menu_game.menuLoss(g_screen, g_font_text);
+			    if(x == 0) 
+				{
+					inMenuLoss = false;
+					inMenuWin = false;
+					game_map.KhoiPhucMap(map_data);
+					game_map.random_vatcan(map_data);
+					through_home = false;
+					mark_value = 100;
+					p_player.setPos(2, 762);
+				}
+				else if(x==1)
+				{
+					inMenuLoss = false;
+					game_map.KhoiPhucMap(map_data);
+					through_menu = true;
+					inMenu = false;
+				}
+				
+	   }
+				}
+		
 			}
-
+	   
 	   }//while(!in_menu)
 //if(through_menu)
 	game_map.KhoiPhucMap(map_data);
@@ -292,7 +357,7 @@ void RenderTextFor5Seconds(SDL_Renderer* screen, TTF_Font* font, const std::stri
     SDL_DestroyTexture(textTexture);
 }
 
-
+void khophuc();
 
 void close() {
 	// tat tat ca cac hd va dua toan bo con tro ve null

@@ -18,8 +18,11 @@ public:
 		WALK_LEFT = 1,
 		WALK_UP = 2,
 		WALK_DOWN = 3,
+		
 	};
 
+
+	void setPos(int x, int y);
 	bool LoadImg(std::string path, SDL_Renderer* screen);
 	void Show(SDL_Renderer* des, int x);
 	void HandelInputAction(SDL_Event events, SDL_Renderer* screen);

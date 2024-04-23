@@ -21,6 +21,12 @@ MainObject::~MainObject(){
 	
 };
 
+void MainObject::setPos(int x, int y)
+{
+	x_pos_ = x;
+	y_pos_ = y;
+}
+
 
 bool MainObject::LoadImg(std::string path, SDL_Renderer* screen){
 	bool ret = BaseObject::LoadImg(path,screen); // ke thua da hinh tai su dung
@@ -443,6 +449,8 @@ bool MainObject::checksieuhoiphuc(Map& map_data,const int& SIEUHOIPHUC,const int
 	bool a = CheckVaCham(map_data, SIEUHOIPHUC, moi);
 	return a;
 }
+
+
 
 
 
