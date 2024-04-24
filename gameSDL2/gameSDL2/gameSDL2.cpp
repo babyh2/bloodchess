@@ -56,14 +56,15 @@ int main(int argc, char* argv[])
 	TextObject mark_game;
 	mark_game.SetColor(TextObject::RED);
 	SDL_Color red = {255,0,0,255};
-
-	int coin = 0;
+	int high_score = 0;
+	int coin = 200;
 	int mark_value =100;
 	// tao mot vong lap vo han de load tam anh 
 	bool is_quit = false;
 	bool inMenu = true ;
 	bool inShop = false;
 	bool inGame = false; 
+	bool inHighScore = false;
 	int nhanvat=1;
 	bool damua = false ;
 	bool through_menu = false;
@@ -81,14 +82,13 @@ int main(int argc, char* argv[])
 			case 0: through_home = true; inGame = true; break;
 			case 1: through_menu = false; inMenu = false; break;
 			case 2: through_home = true;inShop = true; break;
-			case 3: break;
+			case 3: through_home = true;inHighScore = true; break;
 			default:
 				break;
 			}
 			if(through_home == true)
 			{
 				while(inShop){
-					
 					
 					int muaban = menu_game.menuMuaBan(g_screen, g_font_text, coin);
 					if (muaban == -1) return 0;
@@ -106,7 +106,7 @@ int main(int argc, char* argv[])
 								damua = true;
 							}
 							else {
-								RenderTextFor5Seconds(g_screen, g_font_text, "ban chua du tien hay choi game", red);
+								RenderTextFor5Seconds(g_screen, g_font_text, "You do not have enough money to buy this character. Play the game to earn more.", red);
 							}
 							
 						}
@@ -116,7 +116,7 @@ int main(int argc, char* argv[])
 							{
 								nhanvat = 2;
 							}
-							else RenderTextFor5Seconds(g_screen, g_font_text, "ban chua co nhan vat nay hay choi game", red);
+							else RenderTextFor5Seconds(g_screen, g_font_text, "You do not own this character yet", red);
 						}
 					SDL_RenderPresent(g_screen);
 				}
@@ -222,6 +222,7 @@ int main(int argc, char* argv[])
 		}
 	   while(inMenuWin)
 	   {
+		   if(mark_value > high_score) high_score = mark_value;
 		   coin+=mark_value;
 		   int x = menu_game.menuWin(g_screen, g_font_text);
 		   if(x == 0) 
@@ -263,6 +264,11 @@ int main(int argc, char* argv[])
 					inMenu = false;
 				}
 				
+	   }
+	   while(inHighScore)
+	   {
+		   int x = menu_game.menuHighScore(g_screen, g_font_text, high_score);
+		   if(x==0) inHighScore = false;
 	   }
 				}
 		
@@ -309,7 +315,7 @@ SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY,"1");
     g_font_text = TTF_OpenFont("Dreams.ttf", 30);
     if (g_font_text == NULL) return false;
 
-   
+	
 		return success;
 }
 
@@ -342,7 +348,7 @@ void RenderTextFor5Seconds(SDL_Renderer* screen, TTF_Font* font, const std::stri
     int textWidth = textSurface->w;
     int textHeight = textSurface->h;
     
-    SDL_Rect textRect = { 500, 380, textWidth, textHeight };
+    SDL_Rect textRect = {75, 30, textWidth, textHeight };
 
     // Hiển thị văn bản (text) lên màn hình
     SDL_RenderCopy(screen, textTexture, nullptr, &textRect);
@@ -361,7 +367,7 @@ void khophuc();
 
 void close() {
 	// tat tat ca cac hd va dua toan bo con tro ve null
-	g_background.Free();
+	
 	SDL_DestroyRenderer(g_screen);
 	g_screen = NULL;
 	SDL_DestroyWindow(g_window);

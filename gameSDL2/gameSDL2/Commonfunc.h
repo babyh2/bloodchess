@@ -34,6 +34,14 @@ static SDL_Renderer* g_screen;
 static SDL_Event g_event;
 
 
+
+static Mix_Chunk* g_sound_menu;
+static Mix_Chunk* g_sound_game;
+static Mix_Chunk* g_sound_shop;
+static Mix_Chunk* g_sound_va;
+static Mix_Chunk* g_joju[2];
+
+
 static SDL_Renderer* g_menu;
 //screen
 const int FRAME_PER_SECOND = 30;

@@ -347,3 +347,78 @@ int Menu::menuLoss(SDL_Renderer* screen, TTF_Font* font )
 }
 	return 1;
 }
+
+int Menu::menuHighScore(SDL_Renderer* screen, TTF_Font* font, int &high_score)
+{
+	const int kMenuNum = 2;
+	SDL_Rect pos_arr[kMenuNum]=
+	{
+		{517, 560, 0,0},
+		{520, 500, 0,0}
+	};
+	TextObject textMenu[kMenuNum];
+	const std::string score = std::to_string(high_score);
+	const std::string menuItems[kMenuNum] = { "EXIT", score};
+	
+	for (int i = 0; i < kMenuNum; i++) {
+        textMenu[i].SetColor(TextObject::RED);  // Màu mặc định là màu đỏ
+        textMenu[i].LoadText(font, menuItems[i], screen);
+        textMenu[i].SetRect(pos_arr[i].x, pos_arr[i].y);
+        textMenu[i].GetSize(pos_arr[i].w, pos_arr[i].h);
+    }
+	bool selected[kMenuNum] = {false };
+	while (true)
+	{
+		LoadMenu(screen, "HighScore.png");
+		Show(screen, 310, 180);
+		SDL_Event m_event;
+	    for (int i = 0; i < kMenuNum; i++) {
+            textMenu[i].RenderText(screen, pos_arr[i].x, pos_arr[i].y);
+        }
+	while (SDL_PollEvent(&m_event)) {
+            if (m_event.type == SDL_QUIT) {
+                // Thoát chương trình
+                return -1;
+            } else if (m_event.type == SDL_MOUSEMOTION) {
+                int xm = m_event.motion.x;
+                int ym = m_event.motion.y;
+                
+                // Kiểm tra di chuyển chuột vào mục menu
+                for (int i = 0; i < kMenuNum; i++) {
+                    bool isFocus = CheckFocus(xm, ym, pos_arr[i]);
+                    
+                    // Kiểm tra trạng thái trước đó và thay đổi màu sắc nếu cần
+                    if (isFocus && !selected[i]) {
+                        selected[i] = true;
+                        textMenu[i].SetColor(TextObject::YELLOW); // Đổi sang màu vàng khi con trỏ chuột đến
+                        textMenu[i].LoadText(font, menuItems[i], screen);  // Cập nhật văn bản
+                    } else if (!isFocus && selected[i]) {
+                        selected[i] = false;
+                        textMenu[i].SetColor(TextObject::RED); // Trở lại màu đỏ khi con trỏ chuột rời khỏi
+                        textMenu[i].LoadText(font, menuItems[i], screen);  // Cập nhật văn bản
+                    }
+                }
+			}
+			else if (m_event.type == SDL_MOUSEBUTTONDOWN) {
+                int xm = m_event.button.x;
+                int ym = m_event.button.y;
+                // Kiểm tra chọn mục menu
+				for (int i = 0; i < kMenuNum; i++) {
+                    if (CheckFocus(xm, ym, pos_arr[i])) {
+						return i;
+                    }
+                }
+				}
+			else if (m_event.type == SDL_KEYDOWN) {
+                if (m_event.key.keysym.sym == SDLK_ESCAPE) {
+                    // Thoát chương trình khi nhấn phím Escape
+                    return -1;
+                }
+			}
+
+	}
+	SDL_RenderPresent(screen);
+}
+	return 1;
+}
+
