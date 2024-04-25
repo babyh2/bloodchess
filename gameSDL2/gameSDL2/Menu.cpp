@@ -38,16 +38,17 @@ bool Menu::CheckFocus(const int& x, const int& y, const SDL_Rect& rect)
 }
 
 int Menu::ShowMenu(SDL_Renderer* screen, TTF_Font* font) {
-    const int kMenuNum = 4;
+    const int kMenuNum = 5;
     SDL_Rect pos_arr[kMenuNum] = {
         {200, 300, 0, 0},
         {200, 400, 0, 0},
         {200, 500, 0, 0},
-        {200, 600, 0, 0}
+        {200, 600, 0, 0},
+		{200, 700, 0, 0}
     };
 
     TextObject textMenu[kMenuNum];
-    const std::string menuItems[kMenuNum] = {"START GAME", "EXIT", "SHOPPING", "HIGH SCORE"};
+    const std::string menuItems[kMenuNum] = {"START GAME", "EXIT", "SHOPPING", "HIGH SCORE","RULES OF THE GAME"};
     
     // Thiết lập menu ban đầu
     for (int i = 0; i < kMenuNum; i++) {
@@ -58,7 +59,7 @@ int Menu::ShowMenu(SDL_Renderer* screen, TTF_Font* font) {
     }
 
     // Mảng để theo dõi mục menu đã chọn
-    bool selected[kMenuNum] = {false, false, false, false};
+    bool selected[kMenuNum] = {false, false, false, false, false};
 
     SDL_Event m_event;
     while (true) {
@@ -366,7 +367,7 @@ int Menu::menuHighScore(SDL_Renderer* screen, TTF_Font* font, int &high_score)
         textMenu[i].SetRect(pos_arr[i].x, pos_arr[i].y);
         textMenu[i].GetSize(pos_arr[i].w, pos_arr[i].h);
     }
-	bool selected[kMenuNum] = {false };
+	bool selected[kMenuNum-1] = {false };
 	while (true)
 	{
 		LoadMenu(screen, "HighScore.png");
@@ -421,4 +422,68 @@ int Menu::menuHighScore(SDL_Renderer* screen, TTF_Font* font, int &high_score)
 }
 	return 1;
 }
+
+int Menu::menuRules(SDL_Renderer* screen, TTF_Font* font)
+{
+	const int kMenuNum = 1;
+	SDL_Rect pos_arr = {20, 20, 0,0};
+	TextObject textMenu;
+	const std::string menuItem = "EXIT";
+	 textMenu.SetColor(TextObject::RED);  // Màu mặc định là màu đỏ
+        textMenu.LoadText(font, menuItem, screen);
+        textMenu.SetRect(pos_arr.x, pos_arr.y);
+        textMenu.GetSize(pos_arr.w, pos_arr.h);
+	bool selected = false;
+	while(true)
+	{
+		LoadMenu(screen, "RULES_OF_THE_GAME.png");
+		Show(screen, 0, 0);
+		textMenu.RenderText(screen, pos_arr.x, pos_arr.y);
+		SDL_Event m_event;
+		while (SDL_PollEvent(&m_event)) {
+            if (m_event.type == SDL_QUIT) {
+                // Thoát chương trình
+                return -1;
+            } else if (m_event.type == SDL_MOUSEMOTION) {
+                int xm = m_event.motion.x;
+                int ym = m_event.motion.y;
+                
+                // Kiểm tra di chuyển chuột vào mục menu
+                
+                    bool isFocus = CheckFocus(xm, ym, pos_arr);
+                    
+                    // Kiểm tra trạng thái trước đó và thay đổi màu sắc nếu cần
+                    if (isFocus && !selected) {
+                        selected = true;
+                        textMenu.SetColor(TextObject::YELLOW); // Đổi sang màu vàng khi con trỏ chuột đến
+                        textMenu.LoadText(font, menuItem, screen);  // Cập nhật văn bản
+                    } else if (!isFocus && selected) {
+                        selected = false;
+                        textMenu.SetColor(TextObject::RED); // Trở lại màu đỏ khi con trỏ chuột rời khỏi
+                        textMenu.LoadText(font, menuItem, screen);  // Cập nhật văn bản
+                    }
+                }
+			
+			else if (m_event.type == SDL_MOUSEBUTTONDOWN) {
+                int xm = m_event.button.x;
+                int ym = m_event.button.y;
+                // Kiểm tra chọn mục menu
+                    if (CheckFocus(xm, ym, pos_arr)) {
+						return 0;
+                    }
+                }
+				
+			else if (m_event.type == SDL_KEYDOWN) {
+                if (m_event.key.keysym.sym == SDLK_ESCAPE) {
+                    // Thoát chương trình khi nhấn phím Escape
+                    return -1;
+                }
+			}
+		}
+SDL_RenderPresent(screen);
+	}
+	return 0;
+	}
+
+
 

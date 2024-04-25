@@ -65,6 +65,7 @@ int main(int argc, char* argv[])
 	bool inShop = false;
 	bool inGame = false; 
 	bool inHighScore = false;
+    bool inRules = false ;
 	int nhanvat=1;
 	bool damua = false ;
 	bool through_menu = false;
@@ -83,6 +84,7 @@ int main(int argc, char* argv[])
 			case 1: through_menu = false; inMenu = false; break;
 			case 2: through_home = true;inShop = true; break;
 			case 3: through_home = true;inHighScore = true; break;
+			case 4: through_home = true; inRules = true; break;
 			default:
 				break;
 			}
@@ -269,6 +271,11 @@ int main(int argc, char* argv[])
 	   {
 		   int x = menu_game.menuHighScore(g_screen, g_font_text, high_score);
 		   if(x==0) inHighScore = false;
+	   }
+	   while(inRules)
+	   {
+		   int x = menu_game.menuRules(g_screen , g_font_text);
+		   if(x==0) inRules = false ;
 	   }
 				}
 		
