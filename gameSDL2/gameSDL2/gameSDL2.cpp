@@ -134,7 +134,10 @@ int main(int argc, char* argv[])
 		{
 			if(g_event.type == SDL_QUIT ) {
 
-				is_quit = true;
+				inGame = false;
+				through_home = false;
+				through_menu = true;
+				inMenu = false;
 				
 			}
 			p_player.HandelInputAction(g_event, g_screen);

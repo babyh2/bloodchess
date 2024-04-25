@@ -385,7 +385,7 @@ int Menu::menuHighScore(SDL_Renderer* screen, TTF_Font* font, int &high_score)
                 int ym = m_event.motion.y;
                 
                 // Kiểm tra di chuyển chuột vào mục menu
-                for (int i = 0; i < kMenuNum; i++) {
+                for (int i = 0; i < kMenuNum-1; i++) {
                     bool isFocus = CheckFocus(xm, ym, pos_arr[i]);
                     
                     // Kiểm tra trạng thái trước đó và thay đổi màu sắc nếu cần
@@ -404,7 +404,7 @@ int Menu::menuHighScore(SDL_Renderer* screen, TTF_Font* font, int &high_score)
                 int xm = m_event.button.x;
                 int ym = m_event.button.y;
                 // Kiểm tra chọn mục menu
-				for (int i = 0; i < kMenuNum; i++) {
+				for (int i = 0; i < kMenuNum-1; i++) {
                     if (CheckFocus(xm, ym, pos_arr[i])) {
 						return i;
                     }
