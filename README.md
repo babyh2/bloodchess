@@ -48,9 +48,7 @@ Lấy cảm hứng từ giải mê cung và vượt chướng ngại vật.
 - folder font : chứa font chữ
 - folder photo, img , map : chứa hình ảnh nhân vật, màn hình , menu và bản đồ
 - gameSDL2.cpp : chứa hàm main
-  + Hàm init() : khỏi tạo app và các phần cần thiết để load hình ảnh và chữ
-  + Hàm LoadBcakground : load tấm hình background lên
-  + Hàm RenderTextFor5Seconds : hiển thị dòng chữ hiện lên trong 5s trong phần dhop khi mua thất bại
+  + Hàm init() : khỏi tạo shop khi mua thất bại
   + hàm close() : hàm giải phóng và đưa các con trỏ về NULL
 - BaseObject.cpp
   + hàm LoadImg : lấy dữ liệu tấm ảnh từ đường dẫn và load nó lên
