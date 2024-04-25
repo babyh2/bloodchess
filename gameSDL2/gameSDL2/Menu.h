@@ -22,7 +22,6 @@ public:
 	int menuMuaBan(SDL_Renderer* screen, TTF_Font* font, int& coin);
 	int menuWin(SDL_Renderer* screen, TTF_Font* font);
 	int menuLoss(SDL_Renderer* screen, TTF_Font* font);
-	int menuHighScore(SDL_Renderer* screen, TTF_Font* font, int& high_score );
 	int menuRules(SDL_Renderer* screen, TTF_Font* font);
 };
 
