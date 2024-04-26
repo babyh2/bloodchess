@@ -1,5 +1,5 @@
 # Blood Chess - BabyH2
-- link preview game : [youtube]()
+- link preview game : [youtube](https://youtu.be/lQVQ9EjT5JM?si=PuJfXUm7alVitVLs)
 # Cài đặt 
 - Bản chạy được ngay : tải Blood_Chess.rar và giải nén từ [release](https://github.com/babyh2/bloodchess/releases/tag/release)
 - Bản chạy trên IDE hoặc textEditor : clone repo hoặc code -> Download ZIP
