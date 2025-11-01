@@ -85,9 +85,13 @@
     <ClInclude Include="Commonfunc.h" />
     <ClInclude Include="BaseObject.h" />
     <ClInclude Include="Game_map.h" />
+    <ClInclude Include="GameConfig.h" />
+    <ClInclude Include="GameState.h" />
+    <ClInclude Include="GameUtils.h" />
     <ClInclude Include="ImpTime.h" />
     <ClInclude Include="MainObject.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TextObject.h" />
@@ -97,9 +101,12 @@
     <ClCompile Include="Commonfunc.cpp" />
     <ClCompile Include="gameSDL2.cpp" />
     <ClCompile Include="Game_map.cpp" />
+    <ClCompile Include="GameState.cpp" />
+    <ClCompile Include="GameUtils.cpp" />
     <ClCompile Include="ImpTime.cpp" />
     <ClCompile Include="MainObject.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

@@ -3,8 +3,9 @@
 
 #include "Commonfunc.h"
 #include "BaseObject.h"
+#include "GameConfig.h"
 
-#define PLAYER_SPEED 1
+#define PLAYER_SPEED GameConfig::PLAYER_SPEED
 
 class MainObject : public BaseObject
 {

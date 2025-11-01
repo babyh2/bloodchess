@@ -9,6 +9,10 @@
 #include "ImpTime.h"
 #include "TextObject.h"
 #include "Menu.h"
+#include "GameConfig.h"
+#include "GameState.h"
+#include "GameUtils.h"
+#include "ResourceManager.h"
 
 TTF_Font *g_font_text = NULL;
 BaseObject g_background;
@@ -17,12 +21,19 @@ BaseObject g_background;
 bool InitData();
 
 // ham tai background
-
 bool LoadBackground();
+
+// Optimized message display using GameUtils
 void RenderTextFor5Seconds(SDL_Renderer *screen, TTF_Font *font, const std::string &text, SDL_Color color);
 
 // ham giai phong cac doi tuong
 void close();
+
+// Game loop helpers
+void HandleGameLoop(GameState &game_state, MainObject &player, GameMap &game_map,
+                    Map &map_data, ImpTime &fps_timer, TTF_Font *font);
+void HandleShopMenu(GameState &game_state, TTF_Font *font);
+
 Menu menu_game;
 
 int main(int argc, char *argv[])
