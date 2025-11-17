@@ -4,6 +4,7 @@
 #include "Commonfunc.h"
 #include <map>
 #include <string>
+#include <vector>
 
 // Singleton class to manage all game resources (textures, fonts)
 // Load once, reuse many times - avoid repeated I/O
@@ -32,6 +33,12 @@ private:
 
     std::map<std::string, SDL_Texture *> textures_;
     std::map<std::string, TTF_Font *> fonts_;
+    std::vector<std::string> words_;
+
+public:
+    // words operations
+    bool LoadWordsList(const std::string &path);
+    std::string GetRandomWord() const;
 
     SDL_Texture *LoadTexture(const std::string &path, SDL_Renderer *renderer);
     TTF_Font *LoadFont(const std::string &path, int size);

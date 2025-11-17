@@ -74,6 +74,12 @@ bool ResourceManager::LoadAllResources(SDL_Renderer *renderer)
         return false;
     }
 
+    // Load words list for puzzles
+    if (!LoadWordsList("wordsEn.txt"))
+    {
+        SDL_Log("Warning: words list not loaded");
+    }
+
     return true;
 }
 

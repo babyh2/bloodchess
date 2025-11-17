@@ -13,6 +13,7 @@
 #include "GameState.h"
 #include "GameUtils.h"
 #include "ResourceManager.h"
+#include "PuzzleScreen.h"
 
 TTF_Font *g_font_text = NULL;
 BaseObject g_background;
@@ -150,29 +151,67 @@ int main(int argc, char *argv[])
             mark_game.LoadText(g_font_text, "MARK : ", g_screen);
             mark_game.RenderText(g_screen, 20, 10);
 
-            // Kiểm tra và xử lý các vật phẩm trên bản đồ
+            // Kiểm tra và xử lý các vật phẩm trên bản đồ: mở màn hình giải đố khi va chạm
+            ResourceManager &resManager = ResourceManager::GetInstance();
+            PuzzleScreen puzzle(g_screen, g_font_text);
+
             if (p_player.checktaodoc(map_data, BLANK_TAODOC, MOI_TAO_DOC))
             {
-                if (nhanvat == 1)
+                std::string word = resManager.GetRandomWord();
+                PuzzleResult pr = puzzle.RunPuzzle(word);
+                if (pr.solved)
                 {
-                    mark_value -= 10;
+                    // award points based on remaining points
+                    mark_value += pr.awardedPoints;
                 }
-                else if (nhanvat == 2)
+                else
                 {
-                    mark_value -= 0;
+                    // fail: subtract health equal to word length * 5
+                    int lose = static_cast<int>(word.length()) * 5;
+                    mark_value -= lose;
                 }
             }
             else if (p_player.checkhoiphuc(map_data, BLANK_HOIPHUC, MOI_HOI_PHUC))
             {
-                mark_value += 10;
+                std::string word = resManager.GetRandomWord();
+                PuzzleResult pr = puzzle.RunPuzzle(word);
+                if (pr.solved)
+                {
+                    mark_value += pr.awardedPoints;
+                }
+                else
+                {
+                    int lose = static_cast<int>(word.length()) * 5;
+                    mark_value -= lose;
+                }
             }
             else if (p_player.checkbom(map_data, BLANK_BOM, MOI_BOM))
             {
-                mark_value -= 40;
+                std::string word = resManager.GetRandomWord();
+                PuzzleResult pr = puzzle.RunPuzzle(word);
+                if (pr.solved)
+                {
+                    mark_value += pr.awardedPoints;
+                }
+                else
+                {
+                    int lose = static_cast<int>(word.length()) * 5;
+                    mark_value -= lose;
+                }
             }
             else if (p_player.checksieuhoiphuc(map_data, BLANK_SIEUHOIPHUC, MOI_SIEU_HOI_PHUC))
             {
-                mark_value += 30;
+                std::string word = resManager.GetRandomWord();
+                PuzzleResult pr = puzzle.RunPuzzle(word);
+                if (pr.solved)
+                {
+                    mark_value += pr.awardedPoints;
+                }
+                else
+                {
+                    int lose = static_cast<int>(word.length()) * 5;
+                    mark_value -= lose;
+                }
             }
 
             // Kiểm tra điều kiện thắng hoặc thua
